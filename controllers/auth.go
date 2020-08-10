@@ -13,14 +13,11 @@ type AuthController struct {
 }
 
 func (self *AuthController) Index() {
-
-	self.Data["pageTitle"] = "权限因子"
 	self.display()
 }
 
 func (self *AuthController) List() {
 	self.Data["zTree"] = true //引入ztreecss
-	self.Data["pageTitle"] = "权限因子"
 	self.display()
 }
 

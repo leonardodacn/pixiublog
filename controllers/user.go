@@ -13,7 +13,6 @@ type UserController struct {
 }
 
 func (self *UserController) Edit() {
-	self.Data["pageTitle"] = "修改资料"
 	id := self.userId
 	Admin, _ := models.AdminGetById(id)
 	row := make(map[string]interface{})

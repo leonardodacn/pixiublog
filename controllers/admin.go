@@ -18,13 +18,11 @@ type AdminController struct {
 }
 
 func (self *AdminController) List() {
-	self.Data["pageTitle"] = "管理员管理"
 	self.display()
 	//self.TplName = "admin/list.html"
 }
 
 func (self *AdminController) Add() {
-	self.Data["pageTitle"] = "新增管理员"
 	// 角色
 	filters := make([]interface{}, 0)
 	filters = append(filters, "status", 1)
@@ -43,8 +41,6 @@ func (self *AdminController) Add() {
 }
 
 func (self *AdminController) Edit() {
-	self.Data["pageTitle"] = "编辑管理员"
-
 	id, _ := self.GetInt("id", 0)
 	Admin, _ := models.AdminGetById(id)
 	row := make(map[string]interface{})

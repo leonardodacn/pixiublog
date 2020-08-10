@@ -15,13 +15,11 @@ type ServerController struct {
 }
 
 func (self *ServerController) List() {
-	self.Data["pageTitle"] = "执行资源管理"
 	self.Data["serverGroup"] = serverGroupLists(self.serverGroups, self.userId)
 	self.display()
 }
 
 func (self *ServerController) Add() {
-	self.Data["pageTitle"] = "新增执行资源"
 	self.Data["serverGroup"] = serverGroupLists(self.serverGroups, self.userId)
 	self.display()
 }
@@ -82,8 +80,6 @@ func (self *ServerController) GetServerByGroupId() {
 }
 
 func (self *ServerController) Edit() {
-	self.Data["pageTitle"] = "编辑执行资源"
-
 	id, _ := self.GetInt("id", 0)
 	server, _ := models.TaskServerGetById(id)
 	row := make(map[string]interface{})

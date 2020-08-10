@@ -15,7 +15,6 @@ type RoleController struct {
 }
 
 func (self *RoleController) List() {
-	self.Data["pageTitle"] = "角色管理"
 	self.display()
 }
 
@@ -23,13 +22,10 @@ func (self *RoleController) Add() {
 	self.Data["zTree"] = true //引入ztreecss
 	self.Data["taskGroup"] = taskGroupLists(self.taskGroups, self.userId)
 	self.Data["serverGroup"] = serverLists(self.serverGroups, self.userId)
-	self.Data["pageTitle"] = "新增角色"
 	self.display()
 }
 func (self *RoleController) Edit() {
 	self.Data["zTree"] = true //引入ztreecss
-	self.Data["pageTitle"] = "编辑角色"
-
 	self.Data["taskGroup"] = taskGroupLists(self.taskGroups, self.userId)
 	self.Data["serverGroup"] = serverLists(self.serverGroups, self.userId)
 

@@ -18,17 +18,14 @@ type ServerGroupController struct {
 }
 
 func (self *ServerGroupController) List() {
-	self.Data["pageTitle"] = "资源分组管理"
 	self.display()
 }
 
 func (self *ServerGroupController) Add() {
-	self.Data["pageTitle"] = "新增分组"
 	self.Data["hideTop"] = true
 	self.display()
 }
 func (self *ServerGroupController) Edit() {
-	self.Data["pageTitle"] = "编辑分组"
 	self.Data["hideTop"] = true
 
 	id, _ := self.GetInt("id", 0)

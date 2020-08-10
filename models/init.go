@@ -39,6 +39,8 @@ func Init(startTime int64) {
 		new(TaskLog),
 		new(NotifyTpl),
 		new(SysConfig),
+		new(BlogType),
+		new(BlogTag),
 	)
 
 	if beego.AppConfig.String("runmode") == "dev" {

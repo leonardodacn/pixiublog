@@ -37,21 +37,21 @@ windows
 
 #### linux
 
-- 进入 https://pixiublog/releases
+- 进入 https://github.com/leonardodacn/pixiublog/releases
 - 下载 pixiublog-linux-2.x.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 ./run.sh start|stop
 
 #### mac
 
-- 进入https://pixiublog/releases
+- 进入https://github.com/leonardodacn/pixiublog/releases
 - 下载 pixiublog-mac-2.x.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 ./run.sh start|stop
 
 #### windows
 
-- 进入 https://pixiublog/releases
+- 进入 https://github.com/leonardodacn/pixiublog/releases
 - 下载 pixiublog-windows-2.x.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 run.bat

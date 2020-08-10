@@ -19,7 +19,6 @@ type TaskController struct {
 }
 
 func (self *TaskController) List() {
-	self.Data["pageTitle"] = "任务管理"
 	self.Data["taskGroup"] = taskGroupLists(self.taskGroups, self.userId)
 	self.Data["groupId"] = 0
 	//arr := strings.Split(self.Ctx.GetCookie("groupid"), "|")
@@ -30,12 +29,10 @@ func (self *TaskController) List() {
 }
 
 func (self *TaskController) AuditList() {
-	self.Data["pageTitle"] = "任务审核"
 	self.display()
 }
 
 func (self *TaskController) Add() {
-	self.Data["pageTitle"] = "新增任务"
 	self.Data["taskGroup"] = taskGroupLists(self.taskGroups, self.userId)
 	self.Data["serverGroup"] = serverLists(self.serverGroups, self.userId)
 	self.Data["isAdmin"] = self.userId
@@ -44,8 +41,6 @@ func (self *TaskController) Add() {
 }
 
 func (self *TaskController) Edit() {
-	self.Data["pageTitle"] = "编辑任务"
-
 	id, _ := self.GetInt("id")
 	task, err := models.TaskGetById(id)
 	if err != nil {

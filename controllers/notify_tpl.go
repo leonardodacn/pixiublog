@@ -21,19 +21,15 @@ type NotifyTplController struct {
 }
 
 func (self *NotifyTplController) List() {
-	self.Data["pageTitle"] = "通知模板"
 	self.display()
 }
 
 func (self *NotifyTplController) Add() {
-	self.Data["pageTitle"] = "新增通知模板"
 	self.Data["serverGroup"] = serverGroupLists(self.serverGroups, self.userId)
 	self.display()
 }
 
 func (self *NotifyTplController) Edit() {
-	self.Data["pageTitle"] = "编辑通知模板"
-
 	id, _ := self.GetInt("id", 0)
 	notifyTpl, _ := models.NotifyTplGetById(id)
 	row := make(map[string]interface{})

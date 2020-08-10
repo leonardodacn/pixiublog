@@ -14,13 +14,10 @@ type SysConfigController struct {
 }
 
 func (self *SysConfigController) List() {
-	self.Data["pageTitle"] = "参数配置管理"
 	self.display()
 }
 
 func (self *SysConfigController) Add() {
-	self.Data["pageTitle"] = "新增参数配置"
-
 	filters := make([]interface{}, 0)
 	filters = append(filters, "status", 1)
 	result, _ := models.RoleGetList(1, 1000, filters...)
@@ -38,8 +35,6 @@ func (self *SysConfigController) Add() {
 }
 
 func (self *SysConfigController) Edit() {
-	self.Data["pageTitle"] = "编辑参数配置"
-
 	id, _ := self.GetInt("id", 0)
 	sysConfig, _ := models.SysConfigGetById(id)
 	row := make(map[string]interface{})
@@ -58,8 +53,8 @@ func (self *SysConfigController) AjaxSave() {
 		sysConfig.ConfigKey = strings.TrimSpace(self.GetString("configKey"))
 		sysConfig.ConfigValue = strings.TrimSpace(self.GetString("configValue"))
 		sysConfig.ConfigDesc = strings.TrimSpace(self.GetString("configDesc"))
-		sysConfig.CreateTime = time.Now().Unix()
-		sysConfig.UpdateTime = time.Now().Unix()
+		sysConfig.CreateTime = time.Now()
+		sysConfig.UpdateTime = time.Now()
 
 		if _, err := models.SysConfigAdd(sysConfig); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
@@ -73,7 +68,7 @@ func (self *SysConfigController) AjaxSave() {
 	sysConfig.ConfigKey = strings.TrimSpace(self.GetString("configKey"))
 	sysConfig.ConfigValue = strings.TrimSpace(self.GetString("configValue"))
 	sysConfig.ConfigDesc = strings.TrimSpace(self.GetString("configDesc"))
-	sysConfig.UpdateTime = time.Now().Unix()
+	sysConfig.UpdateTime = time.Now()
 
 	if err := sysConfig.Update(); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
@@ -84,7 +79,7 @@ func (self *SysConfigController) AjaxSave() {
 func (self *SysConfigController) AjaxDel() {
 	id, _ := self.GetInt("id")
 	sysConfig, _ := models.SysConfigGetById(id)
-	sysConfig.UpdateTime = time.Now().Unix()
+	sysConfig.UpdateTime = time.Now()
 	sysConfig.Status = 1
 
 	if err := sysConfig.Update(); err != nil {
@@ -121,8 +116,8 @@ func (self *SysConfigController) Table() {
 		row["configKey"] = v.ConfigKey
 		row["configValue"] = v.ConfigValue
 		row["configDesc"] = v.ConfigDesc
-		row["createTime"] = beego.Date(time.Unix(v.CreateTime, 0), "Y-m-d H:i:s")
-		row["updateTime"] = beego.Date(time.Unix(v.UpdateTime, 0), "Y-m-d H:i:s")
+		row["createTime"] = beego.Date(v.CreateTime, "Y-m-d H:i:s")
+		row["updateTime"] = beego.Date(v.UpdateTime, "Y-m-d H:i:s")
 		list[k] = row
 	}
 	self.ajaxList("成功", MSG_OK, count, list)

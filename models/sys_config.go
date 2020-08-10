@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -10,8 +11,8 @@ type SysConfig struct {
 	Id          int
 	ConfigKey   string
 	ConfigValue string
-	CreateTime  int64
-	UpdateTime  int64
+	CreateTime  time.Time
+	UpdateTime  time.Time
 	ConfigDesc  string
 	Status      int
 }

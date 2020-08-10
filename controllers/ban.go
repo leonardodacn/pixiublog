@@ -14,13 +14,10 @@ type BanController struct {
 }
 
 func (self *BanController) List() {
-	self.Data["pageTitle"] = "禁用命令管理"
 	self.display()
 }
 
 func (self *BanController) Add() {
-	self.Data["pageTitle"] = "新增禁用命令"
-
 	// 角色
 	filters := make([]interface{}, 0)
 	filters = append(filters, "status", 1)
@@ -39,8 +36,6 @@ func (self *BanController) Add() {
 }
 
 func (self *BanController) Edit() {
-	self.Data["pageTitle"] = "编辑禁用命令"
-
 	id, _ := self.GetInt("id", 0)
 	ban, _ := models.BanGetById(id)
 	row := make(map[string]interface{})

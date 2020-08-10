@@ -34,4 +34,8 @@ func init() {
 	beego.AutoRouter(&controllers.NotifyTplController{})
 
 	beego.AutoRouter(&controllers.SysConfigController{})
+
+	beego.AutoRouter(&controllers.BlogTypeController{})
+
+	beego.AutoRouter(&controllers.BlogTagController{})
 }
