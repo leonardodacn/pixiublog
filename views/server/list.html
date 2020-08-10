@@ -1,0 +1,125 @@
+<div class="layui-layout layui-layout-admin" style="padding-left: 20px;">
+    <div class="layui-row" style="margin-top: 20px;">
+        <div class="layui-col-xs6">
+            <button class="layui-btn" data-type="tabAdd" id="add">新增</button>
+        </div>
+        <div class="layui-col-xs6 search_text">
+            <form class="layui-form" action="" onsubmit="javascript:return false;">
+                <div class="demoTable">
+                    <div class="layui-inline" style="width: 40%">
+                        <input class="layui-input" name="serverName" id="serverName" autocomplete="off" placeholder="执行资源名称" >
+                    </div>
+                    <div class="layui-inline" style="width: 20%;text-align: left;">
+                        <select name="serverGroupId" id="serverGroupId">
+                            <option value="0">全部</option>
+                        {{range $k, $v := .serverGroup}}
+                            <option value="{{$k}}">{{$v}}</option>
+                        {{end}}
+                        </select>
+                    </div>
+                    <button class="layui-btn" data-type="reload">查询</button>
+                    <button class="layui-btn" onclick="javascript:window.location.reload();">
+                        <i class="fa fa-refresh" aria-hidden="true" id="reload"></i>
+                    </button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+    <table class="layui-hide" id="table_list" lay-filter="table_filter">
+    </table>
+
+    <script type="text/html" id="bar">
+       <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="copy">复制</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+    </script>
+</div>
+<script>
+
+    layui.use(['table','form','element'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var error_info = "{{.flash.error}}";
+        if(error_info){
+            layer.msg(error_info,{icon: 2,shade:0.3},function () {
+                window.history.go(-1)
+            })
+            return;
+        }
+        //方法级渲染
+        table.render({
+            elem: '#table_list'
+            ,url: '/server/table'
+            ,cols: [[
+                // {checkbox: true, fixed: true},
+                {field:'id', title: 'ID', align:'center',sort: true, width:80}
+                ,{field:'server_name',title: '执行资源名称',width:350}
+                ,{field:'connection_type', title: '类型',width:100}
+                ,{field:'ip_port', title: 'IP端口'}
+                ,{field:'group_name',title: '分组名称',width:200}
+                ,{field:'detail', title: '备注'}
+                ,{fixed: 'right', width:160, align:'center', toolbar: '#bar'}
+            ]]
+            ,id: 'listReload'
+            ,page: true
+            ,height: "full-130"
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                table.reload('listReload', {
+                    where: {
+                        serverName: $('#serverName').val(),
+                        serverGroupId:$('#serverGroupId').val(),
+                    },
+                    page: 1
+                });
+            }
+        };
+
+        $("#add").on("click",function() {
+            window.parent.openTab("/server/add",'新增资源',"admin_server_add-0",'fa-plus');
+        })
+
+        //监听工具条
+        table.on('tool(table_filter)', function(obj){
+            var data = obj.data;
+            var server_name = data.server_name
+            if(obj.event === 'edit'){
+                window.parent.openTab("/server/edit?id="+data.id,server_name+'编辑',"admin_server_edit-"+data.id,'fa-edit');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除【'+data.server_name+'】服务器资源么', function(index){
+                    var jsData = {'id':data.id}
+                    $.post('{{urlfor "ServerController.AjaxDel"}}', jsData, function (out) {
+                        if (out.status == 0) {
+                            layer.alert(out.message, {icon: 1},function(index){
+                                layer.close(index);
+                                window.location.reload();
+                            });
+                        } else {
+                            layer.msg(out.message)
+                        }
+                    }, "json");
+                    // obj.del();
+                    layer.close(index);
+                })
+                
+            } else if(obj.event === 'copy'){
+                window.parent.openTab("/server/copy?id="+data.id,server_name+'复制',"admin_server_copy-"+data.id,'fa-copy');
+                // window.location.href="/server/copy?id="+data.id
+            }else{
+                layer.msg('操作不存在');
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+</script>
