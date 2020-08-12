@@ -10,7 +10,7 @@ package notify
 import (
 	"encoding/json"
 	"log"
-	"pixiublog/libs"
+	"pixiublog/utils"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -72,7 +72,7 @@ func (s *Sms) SendSms() error {
 
 	for _, v := range s.Mobiles {
 		s.Param["mobile"] = v
-		res, err := libs.HttpGet(SmsUrl, s.Param)
+		res, err := utils.HttpGet(SmsUrl, s.Param)
 
 		if err != nil {
 			log.Println(err)

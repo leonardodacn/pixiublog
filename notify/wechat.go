@@ -3,7 +3,7 @@ package notify
 import (
 	"encoding/json"
 	"log"
-	"pixiublog/libs"
+	"pixiublog/utils"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -65,7 +65,7 @@ func (s *Wechat) SendWechat() error {
 
 	for _, v := range s.Accounts {
 		s.Param["account"] = v
-		res, err := libs.HttpGet(WechatUrl, s.Param)
+		res, err := utils.HttpGet(WechatUrl, s.Param)
 
 		if err != nil {
 			log.Println(err)

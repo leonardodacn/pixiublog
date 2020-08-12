@@ -1,11 +1,11 @@
 /************************************************************
-** @Description: libs
+** @Description: utils
 ** @Author: george hao
 ** @Date:   2018-08-13 11:16
 ** @Last Modified by:  george hao
 ** @Last Modified time: 2018-08-13 11:16
 *************************************************************/
-package libs
+package utils
 
 import (
 	"fmt"

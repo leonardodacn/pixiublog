@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 	"strconv"
 	"strings"
 
@@ -26,6 +26,35 @@ type BaseController struct {
 	allowUrl       string
 	serverGroups   string
 	taskGroups     string
+}
+
+// GetString returns the input value by key string or the default value while it's present and input is blank
+func (c *BaseController) GetString(key string, def ...string) string {
+	if v := c.Ctx.Input.Query(key); v != "" {
+		return strings.TrimSpace(v)
+	}
+	if len(def) > 0 {
+		return def[0]
+	}
+	return ""
+}
+
+// GetAlwaysInt returns input as an int or the default value while it's present and input is blank, if errors , return 0
+func (c *BaseController) GetAlwaysInt(key string, def ...int) int {
+	strv := c.Ctx.Input.Query(key)
+	if len(strv) == 0 && len(def) > 0 {
+		return def[0]
+	}
+
+	if v, err := strconv.Atoi(strv); err == nil {
+		return v
+	}
+
+	if len(def) > 0 {
+		return def[0]
+	}
+
+	return 0
 }
 
 //前期准备
@@ -61,8 +90,8 @@ func (self *BaseController) Auth() {
 		if userId > 0 {
 			user, err := models.AdminGetById(userId)
 
-			//if err == nil && password == libs.Md5([]byte(self.getClientIp()+"|"+user.Password+user.Salt)) {
-			if err == nil && password == libs.Md5([]byte(user.Password+user.Salt)) {
+			//if err == nil && password == utils.Md5([]byte(self.getClientIp()+"|"+user.Password+user.Salt)) {
+			if err == nil && password == utils.Md5([]byte(user.Password+user.Salt)) {
 				self.userId = user.Id
 				self.loginName = user.LoginName
 				self.userName = user.RealName

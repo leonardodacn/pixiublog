@@ -21,7 +21,7 @@ type BlogType struct {
 }
 
 func (t *BlogType) TableName() string {
-	return TableName("biz_type")
+	return TableName("blog_type")
 }
 
 func (t *BlogType) Update(fields ...string) error {
@@ -53,14 +53,14 @@ func BlogTypeGetById(id int) (*BlogType, error) {
 }
 
 func BlogTypeDelById(id int) error {
-	_, err := orm.NewOrm().QueryTable(TableName("biz_type")).Filter("id", id).Delete()
+	_, err := orm.NewOrm().QueryTable(TableName("blog_type")).Filter("id", id).Delete()
 	return err
 }
 
 func BlogTypeGetList(page, pageSize int, filters ...interface{}) ([]*BlogType, int64) {
 	offset := (page - 1) * pageSize
 	list := make([]*BlogType, 0)
-	query := orm.NewOrm().QueryTable(TableName("biz_type"))
+	query := orm.NewOrm().QueryTable(TableName("blog_type"))
 	if len(filters) > 0 {
 		l := len(filters)
 		for k := 0; k < l; k += 2 {

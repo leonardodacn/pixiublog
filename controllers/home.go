@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"pixiublog/jobs"
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 	"runtime"
 	"sort"
 	"strconv"
@@ -104,7 +104,7 @@ func (self *HomeController) Start() {
 		row["id"] = v.Id
 		row["start_time"] = beego.Date(time.Unix(v.CreateTime, 0), "Y-m-d H:i:s")
 		row["process_time"] = float64(v.ProcessTime) / 1000
-		row["ouput_size"] = libs.SizeFormat(float64(len(v.Output)))
+		row["ouput_size"] = utils.SizeFormat(float64(len(v.Output)))
 		row["error"] = beego.Substr(v.Error, 0, 100)
 		row["status"] = v.Status
 		errLogs[k] = row
@@ -169,7 +169,7 @@ func (self *HomeController) Start() {
 	self.Data["cpuNum"] = runtime.NumCPU()
 
 	//系统运行信息
-	info := libs.SystemInfo(models.StartTime)
+	info := utils.SystemInfo(models.StartTime)
 	self.Data["sysInfo"] = info
 
 	self.Data["pageTitle"] = "系统概况"

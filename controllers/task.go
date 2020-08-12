@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"pixiublog/libs"
+	"pixiublog/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -434,7 +434,7 @@ func (self *TaskController) AjaxPause() {
 
 	for _, server_id := range TaskServerIdsArr {
 		server_id_int, _ := strconv.Atoi(server_id)
-		jobKey := libs.JobKey(task.Id, server_id_int)
+		jobKey := utils.JobKey(task.Id, server_id_int)
 		jobs.RemoveJob(jobKey)
 	}
 
@@ -509,7 +509,7 @@ func (self *TaskController) AjaxBatchPause() {
 
 		for _, server_id := range TaskServerIdsArr {
 			server_id_int, _ := strconv.Atoi(server_id)
-			jobKey := libs.JobKey(task.Id, server_id_int)
+			jobKey := utils.JobKey(task.Id, server_id_int)
 			jobs.RemoveJob(jobKey)
 		}
 		if err == nil {
@@ -539,7 +539,7 @@ func (self *TaskController) AjaxBatchDel() {
 
 		for _, server_id := range TaskServerIdsArr {
 			server_id_int, _ := strconv.Atoi(server_id)
-			jobKey := libs.JobKey(task.Id, server_id_int)
+			jobKey := utils.JobKey(task.Id, server_id_int)
 			jobs.RemoveJob(jobKey)
 		}
 		models.TaskDel(id)
@@ -727,7 +727,7 @@ func (self *TaskController) Table() {
 		if len(TaskServerIdsArr) > 1 {
 			serverId, _ = strconv.Atoi(TaskServerIdsArr[0])
 		}
-		jobskey := libs.JobKey(v.Id, serverId)
+		jobskey := utils.JobKey(v.Id, serverId)
 		e := jobs.GetEntryById(jobskey)
 
 		if e != nil {
@@ -890,7 +890,7 @@ func (self *TaskController) ApiPause() {
 
 	for _, server_id := range TaskServerIdsArr {
 		server_id_int, _ := strconv.Atoi(server_id)
-		jobKey := libs.JobKey(task.Id, server_id_int)
+		jobKey := utils.JobKey(task.Id, server_id_int)
 		jobs.RemoveJob(jobKey)
 	}
 

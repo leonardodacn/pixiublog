@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 	"strconv"
 	"strings"
 	"time"
@@ -122,12 +122,12 @@ func (self *ServerController) AjaxTestServer() {
 	if server.ConnectionType == 0 {
 		if server.Type == 0 {
 			//密码登录
-			err = libs.RemoteCommandByPassword(server)
+			err = utils.RemoteCommandByPassword(server)
 		}
 
 		if server.Type == 1 {
 			//密钥登录
-			err = libs.RemoteCommandByKey(server)
+			err = utils.RemoteCommandByKey(server)
 		}
 
 		if err != nil {
@@ -137,7 +137,7 @@ func (self *ServerController) AjaxTestServer() {
 	} else if server.ConnectionType == 1 {
 		if server.Type == 0 {
 			//密码登录
-			err = libs.RemoteCommandByTelnetPassword(server)
+			err = utils.RemoteCommandByTelnetPassword(server)
 		} else {
 			self.ajaxMsg("Telnet方式暂不支持密钥登陆！", MSG_ERR)
 		}
@@ -148,7 +148,7 @@ func (self *ServerController) AjaxTestServer() {
 		self.ajaxMsg("Success", MSG_OK)
 	} else if server.ConnectionType == 2 {
 
-		if err := libs.RemoteAgent(server); err != nil {
+		if err := utils.RemoteAgent(server); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		} else {
 			self.ajaxMsg("Success", MSG_OK)

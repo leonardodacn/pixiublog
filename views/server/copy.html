@@ -89,7 +89,7 @@
         <div class="layui-form-item key" style="{{if eq .server.type 0}}display:none{{end}}">
             <label class="layui-form-label mw200">公钥地址</label>
             <div class="layui-input-inline mw400">
-                <input type="text" name="public_key_src" id="public_key_src" lay-verify="" autocomplete="off" placeholder="/Users/zengyan/.ssh/pp_rsa.pub" class="layui-input" value="{{.server.public_key_src}}">
+                <input type="text" name="public_key_src" id="public_key_src" lay-verify="" autocomplete="off" placeholder="/Users/zengyan/.ssh/rsa.pub" class="layui-input" value="{{.server.public_key_src}}">
             </div>
             <div class="layui-form-mid layui-word-aux"><span id="des" style="cursor: pointer">说明</span></div>
         </div>
@@ -97,7 +97,7 @@
         <div class="layui-form-item key" style="{{if eq .server.type 0}}display:none{{end}}">
             <label class="layui-form-label mw200">私钥地址</label>
             <div class="layui-input-inline mw400">
-                <input type="text" name="private_key_src" id="private_key_src" lay-verify="" autocomplete="off" placeholder="/Users/zengyan/.ssh/pp_rsa" class="layui-input" value="{{.server.private_key_src}}">
+                <input type="text" name="private_key_src" id="private_key_src" lay-verify="" autocomplete="off" placeholder="/Users/zengyan/.ssh/rsa" class="layui-input" value="{{.server.private_key_src}}">
             </div>
             <div class="layui-form-mid layui-word-aux"></div>
         </div>
@@ -143,7 +143,7 @@
         });
 
         $("#des").on('click',function () {
-            layer.tips('公钥和私钥地址请在本地服务器生成,命令：ssh-keygen -t rsa -f pp_rsa', '#des', {
+            layer.tips('公钥和私钥地址请在本地服务器生成,命令：ssh-keygen -t rsa -f rsa', '#des', {
                 tips: [1, '#0FA6D8'] //还可配置颜色
             });
         })

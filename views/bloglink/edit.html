@@ -1,0 +1,115 @@
+<style>
+    .nav-title{
+        display: none;
+    }
+</style>
+<div class="layui-layout layui-layout-admin" style="padding-left: 40px;margin-top: 20px;">
+
+    <form class="layui-form" action="" method="post" >
+
+        <div class="layui-form-item">
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">URL</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="url" id="url" value="{{.blogLink.url}}" lay-verify="required" autocomplete="off" class="layui-input" >
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="name" id="name" value="{{.blogLink.name}}" lay-verify="required" autocomplete="off" class="layui-input" >
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="description" id="description" value="{{.blogLink.description}}" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">Logo</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="favicon" id="favicon" value="{{.blogLink.favicon}}" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">email</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="email" id="email" value="{{.blogLink.email}}" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">qq</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="qq" id="qq" value="{{.blogLink.qq}}" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">首页显示</label>
+                <div class="layui-input-inline">
+                    <select name="homePageDisplay" lay-verify="required">
+                        <option value="1" {{if NumEq 1 .blogLink.homePageDisplay}}selected{{end}}>可见</option>
+                        <option value="0" {{if NumEq 0 .blogLink.homePageDisplay}}selected{{end}}>隐藏</option>
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-inline" style="min-width: 200px;">
+                    <input type="text" name="remark" id="remark" value="{{.blogLink.remark}}" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+
+        </div>
+        <input type="hidden" name="id" id="id" value="{{.blogLink.id}}">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var $;
+    layui.use(['form','element','layer','jquery'],function(){
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var $ = layui.jquery;
+        var error_info = "{{.flash.error}}";
+        if(error_info){
+            layer.msg(error_info,{icon: 2,shade:0.3},function () {
+                window.history.go(-1)
+            })
+            return;
+        }
+        form.on('submit(sub)', function(data){
+            var form_data = data.field;
+            $.post('{{urlfor "BlogLinkController.AjaxSave"}}', form_data, function (out) {
+                if (out.status == 0) {
+                    layer.msg("操作成功",{icon: 1,shade:0.3,time:1000},function () {
+                        window.parent.layer.closeAll();
+                        window.parent.location.reload();
+                    })
+                } else {
+                    layer.msg(out.message)
+                }
+            }, "json");
+            return false;
+        });
+
+        //但是，如果你的HTML是动态生成的，自动渲染就会失效
+        //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+        form.render();
+    });
+</script>

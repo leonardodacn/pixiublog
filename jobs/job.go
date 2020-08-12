@@ -9,8 +9,8 @@ import (
 	"net/rpc"
 	"net/rpc/jsonrpc"
 	"os/exec"
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 	"runtime/debug"
 	"sync"
 	"time"
@@ -171,7 +171,7 @@ func NewCommandJob(id int, serverId int, name string, command string) *Job {
 		Name: name,
 	}
 
-	job.JobKey = libs.JobKey(id, serverId)
+	job.JobKey = utils.JobKey(id, serverId)
 	job.RunFunc = func(timeout time.Duration) (jobresult *JobResult) {
 		bufOut := new(bytes.Buffer)
 		bufErr := new(bytes.Buffer)
@@ -210,7 +210,7 @@ func RemoteCommandJob(id int, serverId int, name string, command string, servers
 		ServerId: serverId,
 	}
 
-	job.JobKey = libs.JobKey(id, serverId)
+	job.JobKey = utils.JobKey(id, serverId)
 
 	job.RunFunc = func(timeout time.Duration) (jobresult *JobResult) {
 		jobresult = new(JobResult)
@@ -295,7 +295,7 @@ func RemoteCommandJobByPassword(id int, serverId int, name string, command strin
 		ServerId:   serverId,
 		ServerType: servers.ConnectionType,
 	}
-	job.JobKey = libs.JobKey(id, serverId)
+	job.JobKey = utils.JobKey(id, serverId)
 	job.RunFunc = func(timeout time.Duration) (jobresult *JobResult) {
 		jobresult = new(JobResult)
 		jobresult.OutMsg = ""
@@ -358,7 +358,7 @@ func RemoteCommandJobByTelnetPassword(id int, serverId int, name string, command
 		ServerId: serverId,
 	}
 
-	job.JobKey = libs.JobKey(id, serverId)
+	job.JobKey = utils.JobKey(id, serverId)
 	job.RunFunc = func(timeout time.Duration) (jobresult *JobResult) {
 		jobresult = new(JobResult)
 		jobresult.OutMsg = ""
@@ -401,7 +401,7 @@ func RemoteCommandJobByTelnetPassword(id int, serverId int, name string, command
 			return
 		}
 
-		loginStr := libs.GbkAsUtf8(string(buf[:]))
+		loginStr := utils.GbkAsUtf8(string(buf[:]))
 		if !strings.Contains(loginStr, ">") {
 			jobresult.ErrMsg = jobresult.ErrMsg + "Login failed!"
 			jobresult.IsOk = false
@@ -420,11 +420,11 @@ func RemoteCommandJobByTelnetPassword(id int, serverId int, name string, command
 
 			n, err = conn.Read(buf)
 
-			out = out + libs.GbkAsUtf8(string(buf[0:n]))
+			out = out + utils.GbkAsUtf8(string(buf[0:n]))
 			if err != nil ||
 				strings.Contains(out, "'"+c+"' is not recognized as an internal or external command") ||
 				strings.Contains(out, "'"+c+"' 不是内部或外部命令，也不是可运行的程序") {
-				jobresult.ErrMsg = jobresult.ErrMsg + " " + libs.GbkAsUtf8(string(buf[0:n]))
+				jobresult.ErrMsg = jobresult.ErrMsg + " " + utils.GbkAsUtf8(string(buf[0:n]))
 				jobresult.IsOk = false
 				jobresult.OutMsg = out
 				return
@@ -446,7 +446,7 @@ func RemoteCommandJobByAgentPassword(id int, serverId int, name string, command 
 		ServerType: servers.ConnectionType,
 	}
 
-	job.JobKey = libs.JobKey(id, serverId)
+	job.JobKey = utils.JobKey(id, serverId)
 	job.RunFunc = func(timeout time.Duration) *JobResult {
 		return new(JobResult)
 	}
@@ -512,10 +512,10 @@ func TestServer(server *models.TaskServer) error {
 		switch server.Type {
 		case 0:
 			//密码登录
-			return libs.RemoteCommandByPassword(server)
+			return utils.RemoteCommandByPassword(server)
 		case 1:
 			//密钥登录
-			return libs.RemoteCommandByKey(server)
+			return utils.RemoteCommandByKey(server)
 		default:
 			return errors.New("未知的登录方式")
 
@@ -523,13 +523,13 @@ func TestServer(server *models.TaskServer) error {
 	} else if server.ConnectionType == 1 {
 		if server.Type == 0 {
 			//密码登录]
-			return libs.RemoteCommandByTelnetPassword(server)
+			return utils.RemoteCommandByTelnetPassword(server)
 		} else {
 			return errors.New("Telnet方式暂不支持密钥登陆！")
 		}
 
 	} else if server.ConnectionType == 2 {
-		return libs.RemoteAgent(server)
+		return utils.RemoteAgent(server)
 	}
 
 	return errors.New("未知错误")

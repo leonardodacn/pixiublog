@@ -36,7 +36,7 @@ func RoleAuthGetById(id int) ([]*RoleAuth, error) {
 }
 
 func RoleAuthDelete(id int) (int64, error) {
-	_, err := orm.NewOrm().Raw("DELETE FROM `pp_uc_role_auth` WHERE `role_id` = ?",
+	_, err := orm.NewOrm().Raw("DELETE FROM `uc_role_auth` WHERE `role_id` = ?",
 		strconv.Itoa(id)).Exec()
 	return 0, err
 }

@@ -4,6 +4,7 @@ import (
 	"pixiublog/jobs"
 	"pixiublog/models"
 	_ "pixiublog/routers"
+	"pixiublog/utils"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -18,5 +19,11 @@ func init() {
 }
 
 func main() {
+	//添加自定义的模板函数
+	addTemplateFunc()
 	beego.Run()
+}
+
+func addTemplateFunc() {
+	beego.AddFuncMap("NumEq", utils.NumEq)
 }

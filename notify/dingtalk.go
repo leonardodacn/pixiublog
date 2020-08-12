@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"pixiublog/libs"
+	"pixiublog/utils"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -74,7 +74,7 @@ func (s *Dingtalk) SendDingtalk() error {
 		}
 
 		url := fmt.Sprintf(DingtalkUrl, v)
-		_, resErr := libs.HttpPost(url, "application/json;charset=utf-8", bytes.NewBuffer(body))
+		_, resErr := utils.HttpPost(url, "application/json;charset=utf-8", bytes.NewBuffer(body))
 		if resErr != nil {
 			log.Println(resErr)
 			return resErr

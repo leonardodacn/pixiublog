@@ -17,7 +17,7 @@ type BlogTag struct {
 }
 
 func (t *BlogTag) TableName() string {
-	return TableName("biz_tags")
+	return TableName("blog_tag")
 }
 
 func (t *BlogTag) Update(fields ...string) error {
@@ -49,14 +49,14 @@ func BlogTagGetById(id int) (*BlogTag, error) {
 }
 
 func BlogTagDelById(id int) error {
-	_, err := orm.NewOrm().QueryTable(TableName("biz_tags")).Filter("id", id).Delete()
+	_, err := orm.NewOrm().QueryTable(TableName("blog_tag")).Filter("id", id).Delete()
 	return err
 }
 
 func BlogTagGetList(page, pageSize int, filters ...interface{}) ([]*BlogTag, int64) {
 	offset := (page - 1) * pageSize
 	list := make([]*BlogTag, 0)
-	query := orm.NewOrm().QueryTable(TableName("biz_tags"))
+	query := orm.NewOrm().QueryTable(TableName("blog_tag"))
 	if len(filters) > 0 {
 		l := len(filters)
 		for k := 0; k < l; k += 2 {

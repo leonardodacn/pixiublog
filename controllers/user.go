@@ -4,8 +4,8 @@ import (
 	"strings"
 	"time"
 
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 )
 
 type UserController struct {
@@ -44,7 +44,7 @@ func (self *UserController) AjaxSave() {
 	resetPwd := self.GetString("reset_pwd")
 	if resetPwd == "1" {
 		pwdOld := strings.TrimSpace(self.GetString("password_old"))
-		pwdOldMd5 := libs.Md5([]byte(pwdOld + Admin.Salt))
+		pwdOldMd5 := utils.Md5([]byte(pwdOld + Admin.Salt))
 		if Admin.Password != pwdOldMd5 {
 			self.ajaxMsg("旧密码错误", MSG_ERR)
 		}
@@ -59,7 +59,7 @@ func (self *UserController) AjaxSave() {
 			self.ajaxMsg("两次密码不一致", MSG_ERR)
 		}
 
-		pwd, salt := libs.Password(4, pwdNew1)
+		pwd, salt := utils.Password(4, pwdNew1)
 		Admin.Password = pwd
 		Admin.Salt = salt
 	}

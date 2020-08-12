@@ -6,8 +6,8 @@ import (
 
 	"strings"
 
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 
 	"github.com/astaxie/beego"
 )
@@ -36,7 +36,7 @@ func (self *LoginController) LoginIn() {
 		password := strings.TrimSpace(self.GetString("password"))
 		if username != "" && password != "" {
 			user, err := models.AdminGetByName(username)
-			if err != nil || user.Password != libs.Md5([]byte(password+user.Salt)) {
+			if err != nil || user.Password != utils.Md5([]byte(password+user.Salt)) {
 				self.ajaxMsg("帐号或密码错误", MSG_ERR)
 			} else if user.Status == -1 {
 				self.ajaxMsg("该帐号已禁用", MSG_ERR)
@@ -44,7 +44,7 @@ func (self *LoginController) LoginIn() {
 				user.LastIp = self.getClientIp()
 				user.LastLogin = time.Now().Unix()
 				user.Update()
-				authkey := libs.Md5([]byte(user.Password + user.Salt))
+				authkey := utils.Md5([]byte(user.Password + user.Salt))
 				self.Ctx.SetCookie("auth", strconv.Itoa(user.Id)+"|"+authkey, 7*86400)
 
 				self.ajaxMsg("登录成功", MSG_OK)

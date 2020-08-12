@@ -36,6 +36,6 @@ func init() {
 	beego.AutoRouter(&controllers.SysConfigController{})
 
 	beego.AutoRouter(&controllers.BlogTypeController{})
-
 	beego.AutoRouter(&controllers.BlogTagController{})
+	beego.AutoRouter(&controllers.BlogLinkController{})
 }

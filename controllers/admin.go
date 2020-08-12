@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"pixiublog/libs"
+	"pixiublog/utils"
 
 	"pixiublog/models"
 
@@ -100,7 +100,7 @@ func (self *AdminController) AjaxSave() {
 			self.ajaxMsg("登录名已经存在", MSG_ERR)
 		}
 		//新增
-		pwd, salt := libs.Password(4, "")
+		pwd, salt := utils.Password(4, "")
 		Admin.Password = pwd
 		Admin.Salt = salt
 		Admin.CreateTime = time.Now().Unix()
@@ -129,7 +129,7 @@ func (self *AdminController) AjaxSave() {
 
 	resetPwd, _ := self.GetInt("reset_pwd")
 	if resetPwd == 1 {
-		pwd, salt := libs.Password(4, "")
+		pwd, salt := utils.Password(4, "")
 		Admin.Password = pwd
 		Admin.Salt = salt
 	}

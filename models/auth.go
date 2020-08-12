@@ -50,9 +50,9 @@ func AuthGetListByIds(authIds string, userId int) ([]*Auth, error) {
 	var err error
 	if userId == 1 {
 		//超级管理员
-		_, err = orm.NewOrm().Raw("select id,auth_name,auth_url,pid,icon,is_show from pp_uc_auth where status=? order by pid asc,sort asc", 1).Values(&list)
+		_, err = orm.NewOrm().Raw("select id,auth_name,auth_url,pid,icon,is_show from uc_auth where status=? order by pid asc,sort asc", 1).Values(&list)
 	} else {
-		_, err = orm.NewOrm().Raw("select id,auth_name,auth_url,pid,icon,is_show from pp_uc_auth where status=1 and id in("+authIds+") order by pid asc,sort asc", authIds).Values(&list)
+		_, err = orm.NewOrm().Raw("select id,auth_name,auth_url,pid,icon,is_show from uc_auth where status=1 and id in("+authIds+") order by pid asc,sort asc", authIds).Values(&list)
 	}
 
 	for k, v := range list {

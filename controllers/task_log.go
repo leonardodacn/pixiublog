@@ -9,8 +9,8 @@ package controllers
 
 import (
 	"fmt"
-	"pixiublog/libs"
 	"pixiublog/models"
+	"pixiublog/utils"
 	"strconv"
 
 	"github.com/astaxie/beego"
@@ -76,16 +76,16 @@ func (self *TaskLogController) Table() {
 	for k, v := range result {
 		row := make(map[string]interface{})
 		row["id"] = v.Id
-		row["task_id"] = libs.JobKey(v.TaskId, v.ServerId)
+		row["task_id"] = utils.JobKey(v.TaskId, v.ServerId)
 		row["start_time"] = beego.Date(time.Unix(v.CreateTime, 0), "Y-m-d H:i:s")
 		row["process_time"] = float64(v.ProcessTime) / 1000
 
 		row["server_id"] = v.ServerId
 		row["server_name"] = v.ServerName + "#" + strconv.Itoa(v.ServerId)
 		if v.Status == 0 {
-			row["output_size"] = libs.SizeFormat(float64(len(v.Output)))
+			row["output_size"] = utils.SizeFormat(float64(len(v.Output)))
 		} else {
-			row["output_size"] = libs.SizeFormat(float64(len(v.Error)))
+			row["output_size"] = utils.SizeFormat(float64(len(v.Error)))
 		}
 		index := v.Status + 2
 		if index > 2 {
@@ -121,9 +121,9 @@ func (self *TaskLogController) Detail() {
 	row["start_time"] = beego.Date(time.Unix(tasklog.CreateTime, 0), "Y-m-d H:i:s")
 	row["process_time"] = float64(tasklog.ProcessTime) / 1000
 	if tasklog.Status == 0 {
-		row["output_size"] = libs.SizeFormat(float64(len(tasklog.Output)))
+		row["output_size"] = utils.SizeFormat(float64(len(tasklog.Output)))
 	} else {
-		row["output_size"] = libs.SizeFormat(float64(len(tasklog.Error)))
+		row["output_size"] = utils.SizeFormat(float64(len(tasklog.Error)))
 	}
 
 	row["server_name"] = tasklog.ServerName

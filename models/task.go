@@ -115,7 +115,7 @@ func TaskDel(id int) (int64, error) {
 func TaskTotalRunNum() (int64, error) {
 
 	res := make(orm.Params)
-	_, err := orm.NewOrm().Raw("select sum(execute_times) as num,task_name from pp_task").RowsToMap(&res, "num", "task_name")
+	_, err := orm.NewOrm().Raw("select sum(execute_times) as num,task_name from task").RowsToMap(&res, "num", "task_name")
 
 	if err != nil {
 		return 0, err

@@ -95,7 +95,7 @@ func SumByDays(limit int, status string) orm.Params {
 		logs.Info("cache")
 		return res
 	}
-	_, err := orm.NewOrm().Raw("SELECT FROM_UNIXTIME(create_time,'%Y-%m-%d') days,COUNT(id) count FROM pp_task_log WHERE status in(?) GROUP BY days ORDER BY days DESC limit ?;",
+	_, err := orm.NewOrm().Raw("SELECT FROM_UNIXTIME(create_time,'%Y-%m-%d') days,COUNT(id) count FROM task_log WHERE status in(?) GROUP BY days ORDER BY days DESC limit ?;",
 		status, limit).RowsToMap(&res, "days", "count")
 
 	if err != nil {
