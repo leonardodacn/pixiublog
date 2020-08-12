@@ -78,7 +78,7 @@ func (self *AdminController) Edit() {
 	self.display()
 }
 
-func (self *AdminController) AjaxSave() {
+func (self *AdminController) SaveOrUpdate() {
 	Admin_id, _ := self.GetInt("id")
 	if Admin_id == 0 {
 		Admin := new(models.Admin)
@@ -144,7 +144,7 @@ func (self *AdminController) AjaxSave() {
 	self.ajaxMsg(strconv.Itoa(resetPwd), MSG_OK)
 }
 
-func (self *AdminController) AjaxDel() {
+func (self *AdminController) Del() {
 
 	Admin_id, _ := self.GetInt("id")
 	status := strings.TrimSpace(self.GetString("status"))
@@ -167,7 +167,7 @@ func (self *AdminController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *AdminController) Table() {
+func (self *AdminController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

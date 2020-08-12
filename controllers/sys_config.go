@@ -13,7 +13,7 @@ type SysConfigController struct {
 	BaseController
 }
 
-func (self *SysConfigController) List() {
+func (self *SysConfigController) GetList() {
 	self.display()
 }
 
@@ -46,7 +46,7 @@ func (self *SysConfigController) Edit() {
 	self.display()
 }
 
-func (self *SysConfigController) AjaxSave() {
+func (self *SysConfigController) SaveOrUpdate() {
 	id, _ := self.GetInt("id")
 	if id == 0 {
 		sysConfig := new(models.SysConfig)
@@ -76,7 +76,7 @@ func (self *SysConfigController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *SysConfigController) AjaxDel() {
+func (self *SysConfigController) Del() {
 	id, _ := self.GetInt("id")
 	sysConfig, _ := models.SysConfigGetById(id)
 	sysConfig.UpdateTime = time.Now()
@@ -88,7 +88,7 @@ func (self *SysConfigController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *SysConfigController) Table() {
+func (self *SysConfigController) List() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

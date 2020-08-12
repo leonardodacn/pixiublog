@@ -43,7 +43,7 @@
         //方法级渲染
         table.render({
             elem: '#table_list'
-            ,url: '/blogtag/table'
+            ,url: '/blogtag/getlist'
             ,cols: [[
                 // {checkbox: true, fixed: true},
                 {field:'id', title: 'ID', align:'center',sort: true, width:150}
@@ -104,7 +104,7 @@
             } else if(obj.event === 'del'){
                 layer.confirm('确定删除【'+data.name+'】吗', function(index){
                     var jsData = {'id':data.id,'status':status}
-                    $.post('{{urlfor "BlogTagController.AjaxDel"}}', jsData, function (out) {
+                    $.post('{{urlfor "BlogTagController.Del"}}', jsData, function (out) {
                         if (out.status == 0) {
                             layer.alert(out.message, {icon: 1},function(index){
                                 layer.close(index);

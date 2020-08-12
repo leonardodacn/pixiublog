@@ -20,7 +20,7 @@ type NotifyTplController struct {
 	BaseController
 }
 
-func (self *NotifyTplController) List() {
+func (self *NotifyTplController) GetList() {
 	self.display()
 }
 
@@ -43,7 +43,7 @@ func (self *NotifyTplController) Edit() {
 	self.display()
 }
 
-func (self *NotifyTplController) AjaxSave() {
+func (self *NotifyTplController) SaveOrUpdate() {
 	tpl_id, _ := self.GetInt("id")
 	if tpl_id == 0 {
 		notifyTpl := new(models.NotifyTpl)
@@ -100,7 +100,7 @@ func (self *NotifyTplController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *NotifyTplController) AjaxDel() {
+func (self *NotifyTplController) Del() {
 	id, _ := self.GetInt("id")
 	notifyTpl, _ := models.NotifyTplGetById(id)
 
@@ -114,7 +114,7 @@ func (self *NotifyTplController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *NotifyTplController) Table() {
+func (self *NotifyTplController) List() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

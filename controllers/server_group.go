@@ -38,7 +38,7 @@ func (self *ServerGroupController) Edit() {
 	self.display()
 }
 
-func (self *ServerGroupController) AjaxSave() {
+func (self *ServerGroupController) SaveOrUpdate() {
 	servergroup := new(models.ServerGroup)
 	servergroup.GroupName = strings.TrimSpace(self.GetString("group_name"))
 	servergroup.Description = strings.TrimSpace(self.GetString("description"))
@@ -68,7 +68,7 @@ func (self *ServerGroupController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *ServerGroupController) AjaxDel() {
+func (self *ServerGroupController) Del() {
 
 	group_id, _ := self.GetInt("id")
 	group, _ := models.TaskGroupGetById(group_id)
@@ -89,7 +89,7 @@ func (self *ServerGroupController) AjaxDel() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *ServerGroupController) Table() {
+func (self *ServerGroupController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

@@ -47,7 +47,7 @@
         //方法级渲染
         table.render({
             elem: '#table_list'
-            ,url: '/admin/table'
+            ,url: '/admin/getlist'
             ,cols: [[
                 // {checkbox: true, fixed: true},
                 {field:'id', title: 'ID', align:'center',sort: true, width:150}
@@ -102,7 +102,7 @@
 
                 layer.confirm('真的'+acts+'【'+data.login_name+'】账号么', function(index){
                     var jsData = {'id':data.id,'status':status}
-                    $.post('{{urlfor "AdminController.AjaxDel"}}', jsData, function (out) {
+                    $.post('{{urlfor "AdminController.Del"}}', jsData, function (out) {
                         if (out.status == 0) {
                             layer.alert(out.message, {icon: 1},function(index){
                                 layer.close(index);

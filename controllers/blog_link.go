@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"pixiublog/models"
+	. "pixiublog/models"
 	"pixiublog/utils"
 )
 
@@ -17,37 +17,28 @@ func (self *BlogLinkController) List() {
 }
 
 func (self *BlogLinkController) Add() {
-	filters := make([]interface{}, 0)
-	filters = append(filters, "status", 1)
-	result, _ := models.RoleGetList(1, 1000, filters...)
-	list := make([]map[string]interface{}, len(result))
-	for k, v := range result {
-		row := make(map[string]interface{})
-		row["id"] = v.Id
-		row["role_name"] = v.RoleName
-		list[k] = row
-	}
-
-	self.Data["role"] = list
-
 	self.display()
 }
 
 func (self *BlogLinkController) Edit() {
 	id, _ := self.GetInt("id", 0)
-	//blogLink, _ := models.BlogLinkGetById(id)
-	blogLink := &models.BlogLink{}
-	b, _ := blogLink.GetById(id)
-	self.Data["blogLink"] = utils.StructToJsonThenMap(*b)
+	blogLink := &BlogLink{}
+	blogLink.Id = id
+	blogLink.GetById(blogLink)
+	self.Data["data"] = utils.StructToJsonThenMap(blogLink)
 	self.display()
 }
 
-func (self *BlogLinkController) AjaxSave() {
+func (self *BlogLinkController) SaveOrUpdate() {
 	id, _ := self.GetInt("id")
-	blogLink := new(models.BlogLink)
+	blogLink := &BlogLink{}
 
 	if id > 0 {
-		blogLink, _ = models.BlogLinkGetById(id)
+		blogLink.Id = id
+		blogLink.GetById(blogLink)
+		if blogLink == nil {
+			self.ajaxMsg("数据不存在", MSG_ERR)
+		}
 	}
 
 	blogLink.Url = self.GetString("url")
@@ -64,7 +55,7 @@ func (self *BlogLinkController) AjaxSave() {
 		blogLink.CreateTime = time.Now()
 		blogLink.UpdateTime = time.Now()
 
-		if _, err := models.BlogLinkAdd(blogLink); err != nil {
+		if _, err := blogLink.Add(blogLink); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
 		self.ajaxMsg("", MSG_OK)
@@ -73,26 +64,30 @@ func (self *BlogLinkController) AjaxSave() {
 	//修改
 	blogLink.UpdateTime = time.Now()
 
-	if err := blogLink.Update(); err != nil {
+	if err := blogLink.Update(blogLink); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *BlogLinkController) AjaxDel() {
+func (self *BlogLinkController) Del() {
 	id, _ := self.GetInt("id")
-	blogLink, _ := models.BlogLinkGetById(id)
+	blogLink := &BlogLink{}
+	blogLink.Id = id
+	blogLink.GetById(blogLink)
+	if blogLink == nil {
+		self.ajaxMsg("数据不存在", MSG_ERR)
+	}
 	blogLink.UpdateTime = time.Now()
 	blogLink.Status = 1
 
-	if err := blogLink.Update(); err != nil {
+	if err := blogLink.Update(blogLink); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *BlogLinkController) Table() {
-	//列表
+func (self *BlogLinkController) GetList() {
 	page, err := self.GetInt("page")
 	if err != nil {
 		page = 1
@@ -105,12 +100,14 @@ func (self *BlogLinkController) Table() {
 	name := strings.TrimSpace(self.GetString("name"))
 
 	self.pageSize = limit
-	//查询条件
+
 	filters := make([]interface{}, 0)
 	filters = append(filters, "status", 0)
 	if name != "" {
 		filters = append(filters, "name__icontains", name)
 	}
-	result, count := models.BlogLinkGetList(page, self.pageSize, filters...)
+	blogLink := &BlogLink{}
+	result := make([]*BlogLink, 0)
+	count := blogLink.GetList(blogLink.TableName(), page, self.pageSize, &result, filters...)
 	self.ajaxList("成功", MSG_OK, count, result)
 }

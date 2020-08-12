@@ -38,7 +38,7 @@ func (self *TaskLogController) List() {
 	self.display()
 }
 
-func (self *TaskLogController) Table() {
+func (self *TaskLogController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {
@@ -233,7 +233,7 @@ func (self *TaskLogController) Detail() {
 }
 
 // 批量操作日志
-func (self *TaskLogController) AjaxDel() {
+func (self *TaskLogController) Del() {
 	ids := self.GetStrings("ids")
 	idArr := strings.Split(ids[0], ",")
 

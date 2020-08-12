@@ -37,7 +37,7 @@ func (self *GroupController) Edit() {
 	self.display()
 }
 
-func (self *GroupController) AjaxSave() {
+func (self *GroupController) SaveOrUpdate() {
 	group := new(models.Group)
 	group.GroupName = strings.TrimSpace(self.GetString("group_name"))
 	group.Description = strings.TrimSpace(self.GetString("description"))
@@ -67,7 +67,7 @@ func (self *GroupController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *GroupController) AjaxDel() {
+func (self *GroupController) Del() {
 
 	group_id, _ := self.GetInt("id")
 	group, _ := models.GroupGetById(group_id)
@@ -88,7 +88,7 @@ func (self *GroupController) AjaxDel() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *GroupController) Table() {
+func (self *GroupController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

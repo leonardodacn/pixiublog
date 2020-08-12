@@ -61,7 +61,7 @@ func (self *AuthController) GetNode() {
 }
 
 //新增或修改
-func (self *AuthController) AjaxSave() {
+func (self *AuthController) SaveOrUpdate() {
 	auth := new(models.Auth)
 	auth.UserId = self.userId
 	auth.Pid, _ = self.GetInt("pid")
@@ -95,7 +95,7 @@ func (self *AuthController) AjaxSave() {
 }
 
 //删除
-func (self *AuthController) AjaxDel() {
+func (self *AuthController) Del() {
 	id, _ := self.GetInt("id")
 	auth, _ := models.AuthGetById(id)
 	auth.Id = id

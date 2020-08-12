@@ -43,7 +43,7 @@
         //方法级渲染
         table.render({
             elem: '#table_list'
-            , url: '/notifytpl/table'
+            , url: '/notifytpl/getlist'
             , cols: [[
                 {checkbox: true, fixed: true},
                 {field: 'id', title: 'ID', align: 'center', sort: true, width: 150},
@@ -84,7 +84,7 @@
             } else if (obj.event === 'del') {
                 layer.confirm('真的删除【' + data.tpl_name + '】模板么', function (index) {
                     var jsData = {'id': data.id}
-                    $.post('{{urlfor "NotifyTplController.AjaxDel"}}', jsData, function (out) {
+                    $.post('{{urlfor "NotifyTplController.Del"}}', jsData, function (out) {
                         if (out.status == 0) {
                             layer.alert(out.message, {icon: 1}, function (index) {
                                 layer.close(index);

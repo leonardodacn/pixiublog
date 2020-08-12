@@ -27,7 +27,7 @@ func (self *UserController) Edit() {
 	self.display()
 }
 
-func (self *UserController) AjaxSave() {
+func (self *UserController) SaveOrUpdate() {
 	Admin_id, _ := self.GetInt("id")
 	Admin, _ := models.AdminGetById(Admin_id)
 	//修改

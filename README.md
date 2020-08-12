@@ -10,7 +10,6 @@ pixiublog是一款轻量级博客系统，go语言开发，部署超级简单，
 + bee
 + layui
 + bootstrap
-+ PPGO_JOB
 
 ## 二、安装方法
 
@@ -23,14 +22,14 @@ pixiublog是一款轻量级博客系统，go语言开发，部署超级简单，
 - 运行 ./run.sh start|stop
 
 mac
-- 运行 ./package.sh -a amd64 -p darwin -v v2.x.0
+- 运行 ./package.sh -a amd64 -p darwin -v v1.x.0
 
 linux
-- 运行 ./package.sh -a 386 -p linux -v v2.x.0
-- 运行 ./package.sh -a amd64 -p linux -v v2.x.0
+- 运行 ./package.sh -a 386 -p linux -v v1.x.0
+- 运行 ./package.sh -a amd64 -p linux -v v1.x.0
 
 windows
-- 运行 ./package.sh -a amd64 -p windows -v v2.x.0
+- 运行 ./package.sh -a amd64 -p windows -v v1.x.0
 
 
 ### 方法二、直接使用
@@ -38,21 +37,21 @@ windows
 #### linux
 
 - 进入 https://github.com/leonardodacn/pixiublog/releases
-- 下载 pixiublog-linux-2.x.0.zip 并解压
+- 下载 pixiublog-linux-1.x.0.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 ./run.sh start|stop
 
 #### mac
 
 - 进入https://github.com/leonardodacn/pixiublog/releases
-- 下载 pixiublog-mac-2.x.0.zip 并解压
+- 下载 pixiublog-mac-1.x.0.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 ./run.sh start|stop
 
 #### windows
 
 - 进入 https://github.com/leonardodacn/pixiublog/releases
-- 下载 pixiublog-windows-2.x.0.zip 并解压
+- 下载 pixiublog-windows-1.x.0.0.zip 并解压
 - 进入文件夹，设置好数据库(创建数据库，导入pixiublog.sql)和配置文件(conf/app.conf)
 - 运行 run.bat
 

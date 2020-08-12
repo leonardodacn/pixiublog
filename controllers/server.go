@@ -183,7 +183,7 @@ func (self *ServerController) Copy() {
 	self.display()
 }
 
-func (self *ServerController) AjaxSave() {
+func (self *ServerController) SaveOrUpdate() {
 	server_id, _ := self.GetInt("id")
 	if server_id == 0 {
 		server := new(models.TaskServer)
@@ -236,7 +236,7 @@ func (self *ServerController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *ServerController) AjaxDel() {
+func (self *ServerController) Del() {
 	id, _ := self.GetInt("id")
 
 	if id == 1 {
@@ -255,7 +255,7 @@ func (self *ServerController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *ServerController) Table() {
+func (self *ServerController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

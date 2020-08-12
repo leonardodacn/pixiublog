@@ -45,7 +45,7 @@
         //方法级渲染
         table.render({
             elem: '#table_list'
-            ,url: '/group/table'
+            ,url: '/group/getlist'
             ,cols: [[
                 // {checkbox: true, fixed: true},
                 {field:'id', title: 'ID', align:'center',sort: true, width:150}
@@ -95,7 +95,7 @@
 
                 layer.confirm('真的删除【'+data.group_name+'】分组么', function(index){
                     var jsData = {'id':data.id}
-                    $.post('{{urlfor "GroupController.AjaxDel"}}', jsData, function (out) {
+                    $.post('{{urlfor "GroupController.Del"}}', jsData, function (out) {
                         if (out.status == 0) {
                             layer.alert('操作成功', {icon: 1,shade:0.3,time:1000},function(index){
                                 layer.close(index);

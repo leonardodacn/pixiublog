@@ -257,7 +257,7 @@ func (self *TaskController) Detail() {
 	self.display()
 }
 
-func (self *TaskController) AjaxSave() {
+func (self *TaskController) SaveOrUpdate() {
 	task_id, _ := self.GetInt("id")
 	if task_id == 0 {
 		task := new(models.Task)
@@ -598,7 +598,7 @@ func changeStatus(taskId, status, userId int) bool {
 	return true
 }
 
-func (self *TaskController) AjaxDel() {
+func (self *TaskController) Del() {
 	id, _ := self.GetInt("id")
 	task, _ := models.TaskGetById(id)
 
@@ -631,7 +631,7 @@ func (self *TaskController) AjaxNotifyType() {
 	self.ajaxList("成功", MSG_OK, count, list)
 }
 
-func (self *TaskController) Table() {
+func (self *TaskController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

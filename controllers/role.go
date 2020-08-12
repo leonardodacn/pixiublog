@@ -67,7 +67,7 @@ func (self *RoleController) Edit() {
 	self.display()
 }
 
-func (self *RoleController) AjaxSave() {
+func (self *RoleController) SaveOrUpdate() {
 	role := new(models.Role)
 	role.RoleName = strings.TrimSpace(self.GetString("role_name"))
 	role.Detail = strings.TrimSpace(self.GetString("detail"))
@@ -131,7 +131,7 @@ func (self *RoleController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *RoleController) AjaxDel() {
+func (self *RoleController) Del() {
 
 	role_id, _ := self.GetInt("id")
 	role, _ := models.RoleGetById(role_id)
@@ -147,7 +147,7 @@ func (self *RoleController) AjaxDel() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *RoleController) Table() {
+func (self *RoleController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

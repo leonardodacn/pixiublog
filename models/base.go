@@ -5,44 +5,32 @@ import (
 )
 
 type Base struct {
-	Id int
+	Id int `json:"id"`
 }
 
-func (t *Base) TableName() string {
-	return TableName("base")
-}
-
-func (t *Base) Update(fields ...string) error {
-	if _, err := orm.NewOrm().Update(t, fields...); err != nil {
+func (t *Base) Update(obj interface{}, fields ...string) error {
+	if _, err := orm.NewOrm().Update(obj, fields...); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (t *Base) Add() (int64, error) {
-	return orm.NewOrm().Insert(t)
+func (t *Base) Add(obj interface{}) (int64, error) {
+	return orm.NewOrm().Insert(obj)
 }
 
-func (t *Base) GetById(id int) (*Base, error) {
-	obj := &Base{
-		Id: id,
-	}
-	err := orm.NewOrm().Read(obj)
-	if err != nil {
-		return nil, err
-	}
-	return obj, nil
+func (t *Base) GetById(obj interface{}) {
+	orm.NewOrm().Read(obj)
 }
 
-func (t *Base) DelById(id int) error {
-	_, err := orm.NewOrm().QueryTable(t.TableName()).Filter("id", id).Delete()
+func (t *Base) DelById(obj interface{}) error {
+	_, err := orm.NewOrm().Delete(obj)
 	return err
 }
 
-func (t *Base) GetList(page, pageSize int, filters ...interface{}) ([]*Base, int64) {
+func (t *Base) GetList(tableName string, page, pageSize int, result interface{}, filters ...interface{}) int64 {
 	offset := (page - 1) * pageSize
-	list := make([]*Base, 0)
-	query := orm.NewOrm().QueryTable(t.TableName())
+	query := orm.NewOrm().QueryTable(tableName)
 	if len(filters) > 0 {
 		l := len(filters)
 		for k := 0; k < l; k += 2 {
@@ -50,6 +38,6 @@ func (t *Base) GetList(page, pageSize int, filters ...interface{}) ([]*Base, int
 		}
 	}
 	total, _ := query.Count()
-	query.OrderBy("-id").Limit(pageSize, offset).All(&list)
-	return list, total
+	query.OrderBy("-id").Limit(pageSize, offset).All(result)
+	return total
 }

@@ -45,7 +45,7 @@ func (self *BanController) Edit() {
 	self.display()
 }
 
-func (self *BanController) AjaxSave() {
+func (self *BanController) SaveOrUpdate() {
 	id, _ := self.GetInt("id")
 	if id == 0 {
 		ban := new(models.Ban)
@@ -70,7 +70,7 @@ func (self *BanController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *BanController) AjaxDel() {
+func (self *BanController) Del() {
 	id, _ := self.GetInt("id")
 	ban, _ := models.BanGetById(id)
 	ban.UpdateTime = time.Now().Unix()
@@ -82,7 +82,7 @@ func (self *BanController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *BanController) Table() {
+func (self *BanController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

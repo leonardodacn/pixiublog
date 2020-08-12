@@ -51,7 +51,7 @@ func (self *BlogTypeController) Edit() {
 	self.display()
 }
 
-func (self *BlogTypeController) AjaxSave() {
+func (self *BlogTypeController) SaveOrUpdate() {
 	id, _ := self.GetInt("id")
 	if id == 0 {
 		blogType := new(models.BlogType)
@@ -87,7 +87,7 @@ func (self *BlogTypeController) AjaxSave() {
 	self.ajaxMsg("", MSG_OK)
 }
 
-func (self *BlogTypeController) AjaxDel() {
+func (self *BlogTypeController) Del() {
 	id, _ := self.GetInt("id")
 	blogType, _ := models.BlogTypeGetById(id)
 	blogType.UpdateTime = time.Now()
@@ -99,7 +99,7 @@ func (self *BlogTypeController) AjaxDel() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *BlogTypeController) Table() {
+func (self *BlogTypeController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {
