@@ -1,10 +1,3 @@
-/************************************************************
-** @Description: controllers
-** @Author: george hao
-** @Date:   2018-07-05 16:43
-** @Last Modified by:  george hao
-** @Last Modified time: 2018-07-05 16:43
-*************************************************************/
 package controllers
 
 import (

@@ -1,10 +1,3 @@
-/************************************************************
-** @Description: notify
-** @Author: george hao
-** @Date:   2018-08-09 13:05
-** @Last Modified by:  Bee
-** @Last Modified time: 2019-02-15 13:50
-*************************************************************/
 package notify
 
 import (

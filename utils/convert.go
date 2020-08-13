@@ -1,10 +1,3 @@
-/************************************************************
-** @Description: convert
-** @Author: george hao
-** @Date:   2019-06-28 09:34
-** @Last Modified by:  george hao
-** @Last Modified time: 2019-06-28 09:34
-*************************************************************/
 package utils
 
 import "fmt"

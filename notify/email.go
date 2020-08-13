@@ -1,20 +1,14 @@
-/************************************************************
-** @Description: notify
-** @Author: george hao
-** @Date:   2018-08-08 12:59
-** @Last Modified by:  gwalker
-** @Last Modified time: 2018-11-26 14:57
-*************************************************************/
 package notify
 
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/astaxie/beego"
 	"net"
 	"net/smtp"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
 )
 
 type PEmailConfig struct {
@@ -102,19 +96,17 @@ func (pe *PEmail) SendToEmail() error {
 	var err error
 
 	if pe.Config.Port == "25" {
-		err = SendMailUsing25(pe.Config.Host,pe.Config.Port,auth,pe.Config.User,sendTo,msg)
+		err = SendMailUsing25(pe.Config.Host, pe.Config.Port, auth, pe.Config.User, sendTo, msg)
 	} else if pe.Config.Port == "465" {
-		err = SendMailUsing465(pe.Config.Host,pe.Config.Port,auth,pe.Config.User,sendTo,msg)
-	} else{
-		err = fmt.Errorf("%s","other ports are not supported,please check the app.conf configuration file")
+		err = SendMailUsing465(pe.Config.Host, pe.Config.Port, auth, pe.Config.User, sendTo, msg)
+	} else {
+		err = fmt.Errorf("%s", "other ports are not supported,please check the app.conf configuration file")
 	}
 
 	return err
 }
 
-
-
-func GetContentTypeString ( format string ) string {
+func GetContentTypeString(format string) string {
 	var contentType string
 	if format == "" {
 		contentType = "Content-Type: text/plain" + "; charset=UTF-8"
@@ -124,16 +116,13 @@ func GetContentTypeString ( format string ) string {
 	return contentType
 }
 
-
 func SendMailUsing25(addr string, port string, auth smtp.Auth, from string, to []string, msg []byte) (err error) {
 	err = smtp.SendMail(addr+":"+port, auth, from, to, msg)
 	return err
 }
 
-
-
-func SendMailUsing465(addr string,port string, auth smtp.Auth, from string, to []string, msg []byte) (err error) {
-	c, err := Dial(addr+":"+port)
+func SendMailUsing465(addr string, port string, auth smtp.Auth, from string, to []string, msg []byte) (err error) {
+	c, err := Dial(addr + ":" + port)
 	if err != nil {
 		return err
 	}
@@ -151,7 +140,6 @@ func SendMailUsing465(addr string,port string, auth smtp.Auth, from string, to [
 		return err
 	}
 
-
 	for _, addr := range to {
 		if err = c.Rcpt(addr); err != nil {
 			fmt.Print(err)
@@ -159,7 +147,6 @@ func SendMailUsing465(addr string,port string, auth smtp.Auth, from string, to [
 
 		}
 	}
-
 
 	w, err := c.Data()
 	if err != nil {
@@ -177,7 +164,6 @@ func SendMailUsing465(addr string,port string, auth smtp.Auth, from string, to [
 	}
 	return c.Quit()
 }
-
 
 func Dial(addr string) (*smtp.Client, error) {
 	conn, err := tls.Dial("tcp", addr, nil)

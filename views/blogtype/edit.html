@@ -12,7 +12,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">名称</label>
                 <div class="layui-input-inline" style="min-width: 200px;">
-                    <input type="text" name="name" id="name" value="{{.blogType.name}}" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="">
+                    <input type="text" name="name" id="name" value="{{.data.name}}" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">*</div>
             </div>
@@ -20,14 +20,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">描述</label>
                 <div class="layui-input-inline" style="min-width: 200px;">
-                    <input type="text" name="description" id="description" value="{{.blogType.description}}" autocomplete="off" placeholder="描述" class="layui-input" value="">
+                    <input type="text" name="description" id="description" value="{{.data.description}}" autocomplete="off" placeholder="描述" class="layui-input" value="">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-inline" style="min-width: 200px;">
-                    <input type="text" name="icon" id="icon" value="{{.blogType.icon}}" lay-verify="required" autocomplete="off" placeholder="图标" class="layui-input" value="">
+                    <input type="text" name="icon" id="icon" value="{{.data.icon}}" lay-verify="required" autocomplete="off" placeholder="图标" class="layui-input" value="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">*</div>
             </div>
@@ -35,7 +35,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-inline" style="min-width: 200px;">
-                    <input type="text" name="sort" id="sort" value="{{.blogType.sort}}" lay-verify="required" autocomplete="off" placeholder="排序" class="layui-input" value="">
+                    <input type="text" name="sort" id="sort" value="{{.data.sort}}" lay-verify="required" autocomplete="off" placeholder="排序" class="layui-input" value="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">*</div>
             </div>
@@ -44,8 +44,8 @@
                 <label class="layui-form-label">是否可见</label>
                 <div class="layui-input-inline">
                     <select name="available" lay-verify="required">
-                        <option value="1" {{if eq 1 .blogType.available}}selected{{end}}>可见</option>
-                        <option value="0" {{if eq 0 .blogType.available}}selected{{end}}>隐藏</option>
+                        <option value="1" {{if NumEq 1 .data.available}}selected{{end}}>可见</option>
+                        <option value="0" {{if NumEq 0 .data.available}}selected{{end}}>隐藏</option>
                     </select>
                 </div>
                 <div class="layui-form-mid layui-word-aux">*</div>
@@ -53,7 +53,7 @@
 
 
         </div>
-        <input type="hidden" name="id" id="id" value="{{.blogType.id}}">
+        <input type="hidden" name="id" id="id" value="{{.data.id}}">
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>

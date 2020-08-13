@@ -50,11 +50,10 @@ func (self *BlogLinkController) SaveOrUpdate() {
 	blogLink.HomePageDisplay = self.GetAlwaysInt("homePageDisplay")
 	blogLink.Remark = self.GetString("remark")
 	blogLink.Source = self.GetString("source")
+	blogLink.UpdateTime = time.Now()
 
 	if id == 0 {
 		blogLink.CreateTime = time.Now()
-		blogLink.UpdateTime = time.Now()
-
 		if _, err := blogLink.Add(blogLink); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
@@ -62,8 +61,6 @@ func (self *BlogLinkController) SaveOrUpdate() {
 	}
 
 	//修改
-	blogLink.UpdateTime = time.Now()
-
 	if err := blogLink.Update(blogLink); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
