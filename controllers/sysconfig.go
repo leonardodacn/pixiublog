@@ -13,7 +13,7 @@ type SysConfigController struct {
 	BaseController
 }
 
-func (self *SysConfigController) GetList() {
+func (self *SysConfigController) List() {
 	self.display()
 }
 
@@ -88,7 +88,7 @@ func (self *SysConfigController) Del() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *SysConfigController) List() {
+func (self *SysConfigController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

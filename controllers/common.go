@@ -68,12 +68,6 @@ func (self *BaseController) Prepare() {
 	self.Data["curRoute"] = self.controllerName + "." + self.actionName
 	self.Data["curController"] = self.controllerName
 	self.Data["curAction"] = self.actionName
-	// noAuth := "ajaxsave/ajaxdel/table/loginin/loginout/getnodes/start"
-	// isNoAuth := strings.Contains(noAuth, self.actionName)
-	//fmt.Println(self.controllerName)
-	//if (strings.Compare(self.controllerName, "apidoc")) != 0 {
-	//
-	//}
 
 	self.Auth()
 	self.Data["loginUserId"] = self.userId
@@ -119,14 +113,7 @@ func (self *BaseController) Auth() {
 	}
 
 	if self.userId == 0 &&
-		(self.controllerName != "login" &&
-			self.actionName != "loginin" &&
-			self.actionName != "apistart" &&
-			self.actionName != "apitask" &&
-			self.actionName != "apipause" &&
-			self.actionName != "apisave" &&
-			self.actionName != "apistatus" &&
-			self.actionName != "apiget") {
+		(self.controllerName != "login" && self.actionName != "loginin") {
 		self.redirect(beego.URLFor("LoginController.Login"))
 	}
 }

@@ -5,7 +5,7 @@ import (
 )
 
 type Base struct {
-	Id int `json:"id"`
+	Id int `json:"id" form:"id"`
 }
 
 func (t *Base) Update(obj interface{}, fields ...string) error {

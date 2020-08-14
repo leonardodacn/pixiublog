@@ -20,7 +20,7 @@ type NotifyTplController struct {
 	BaseController
 }
 
-func (self *NotifyTplController) GetList() {
+func (self *NotifyTplController) List() {
 	self.display()
 }
 
@@ -114,7 +114,7 @@ func (self *NotifyTplController) Del() {
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
-func (self *NotifyTplController) List() {
+func (self *NotifyTplController) GetList() {
 	//列表
 	page, err := self.GetInt("page")
 	if err != nil {

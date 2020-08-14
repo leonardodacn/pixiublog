@@ -41,15 +41,10 @@ func (self *BlogLinkController) SaveOrUpdate() {
 		}
 	}
 
-	blogLink.Url = self.GetString("url")
-	blogLink.Name = self.GetString("name")
-	blogLink.Description = self.GetString("description")
-	blogLink.Email = self.GetString("email")
-	blogLink.Qq = self.GetString("qq")
-	blogLink.Favicon = self.GetString("favicon")
-	blogLink.HomePageDisplay = self.GetAlwaysInt("homePageDisplay")
-	blogLink.Remark = self.GetString("remark")
-	blogLink.Source = self.GetString("source")
+	if err := self.ParseForm(blogLink); err != nil {
+		self.ajaxMsg(err.Error(), MSG_ERR)
+	}
+
 	blogLink.UpdateTime = time.Now()
 
 	if id == 0 {

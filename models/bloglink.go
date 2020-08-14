@@ -6,18 +6,18 @@ import (
 
 type BlogLink struct {
 	Base
-	Url             string    `json:"url"`
-	Name            string    `json:"name"`
-	Description     string    `json:"description"`
-	Email           string    `json:"email"`
-	Qq              string    `json:"qq"`
-	Favicon         string    `json:"favicon"`
-	Status          int       `json:"-"`
-	HomePageDisplay int       `json:"homePageDisplay"`
-	Remark          string    `json:"remark"`
-	Source          string    `json:"source"`
-	CreateTime      time.Time `json:"createTime"`
-	UpdateTime      time.Time `json:"updateTime"`
+	Name            string    `json:"name"            form:"name"`
+	Url             string    `json:"url"             form:"url"`
+	Description     string    `json:"description"     form:"description"`
+	Email           string    `json:"email"           form:"email"`
+	Qq              string    `json:"qq"              form:"qq"`
+	Favicon         string    `json:"favicon"         form:"favicon"`
+	Status          int       `json:"-"               form:"-"`
+	HomePageDisplay int       `json:"homePageDisplay" form:"homePageDisplay"`
+	Remark          string    `json:"remark"          form:"remark"`
+	Source          string    `json:"source"          form:"source"`
+	CreateTime      time.Time `json:"createTime"      form:"createTime"`
+	UpdateTime      time.Time `json:"updateTime"      form:"updateTime"`
 }
 
 func (t *BlogLink) TableName() string {
