@@ -95,8 +95,9 @@ func (self *BaseController) Auth() {
 			}
 
 			isHasAuth := strings.Contains(self.allowUrl, self.controllerName+"/"+self.actionName)
-			noAuth := "ajaxsave/table/loginin/loginout/getnodes/start"
-			isNoAuth := strings.Contains(noAuth, self.actionName)
+			excludeAction := "/loginin/loginout"
+			escludeController := "/web"
+			isNoAuth := strings.Contains(excludeAction, self.actionName) || strings.Contains(escludeController, self.controllerName)
 
 			if isHasAuth == false && isNoAuth == false {
 				if strings.Contains(self.actionName, "ajax") {
@@ -222,6 +223,18 @@ func (self *BaseController) display(tpl ...string) {
 		tplname = self.controllerName + "/" + self.actionName + ".html"
 	}
 	self.Layout = "public/layout.html"
+	self.TplName = tplname
+}
+
+//加载模板
+func (self *BaseController) displayWeb(tpl ...string) {
+	var tplname string
+	if len(tpl) > 0 {
+		tplname = strings.Join([]string{tpl[0], "html"}, ".")
+	} else {
+		tplname = self.controllerName + "/" + self.actionName + ".html"
+	}
+	self.Layout = "public/web.html"
 	self.TplName = tplname
 }
 

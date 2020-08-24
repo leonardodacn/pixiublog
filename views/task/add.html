@@ -165,7 +165,7 @@
         formSelects: 'formSelects-v3'
     });
     layui.use(['form', 'element', 'layer', 'jquery','formSelects'], function () {
-        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var form = layui.form; 
         var $ = layui.jquery;
         var formSelects = layui.formSelects;
 
@@ -202,7 +202,7 @@
 
         form.on('submit(sub)', function (data) {
 
-            var form_data = data.field;
+            var formData = data.field;
 
             //选择执行器
             var ids = formSelects.value('select_server');	//获取选中的
@@ -216,15 +216,15 @@
                 server_arr.push(v.val);
             })
 
-            form_data.server_ids = server_arr.join(",");
+            formData.server_ids = server_arr.join(",");
 
-            if (form_data.server_ids==="" || form_data.server_ids===null){
+            if (formData.server_ids==="" || formData.server_ids===null){
                 layer.msg("请选择服务器资源");
                 return false;
             }
 
             //选择通知人
-            if (form_data.is_notify==1 ) {
+            if (formData.is_notify==1 ) {
                 var ids = formSelects.value('select_notify');	//获取选中的
                 if (ids.length<1){
                     layer.msg("请选择通知人");
@@ -236,16 +236,16 @@
                     notify_arr.push(v.val);
                 })
 
-                form_data.notify_user_ids = notify_arr.join(",");
+                formData.notify_user_ids = notify_arr.join(",");
 
-                if (form_data.notify_user_ids==="" || form_data.notify_user_ids===null){
+                if (formData.notify_user_ids==="" || formData.notify_user_ids===null){
                     layer.msg("请选择通知人");
                     return false;
                 }
             }
 
 
-            $.post('{{urlfor "TaskController.SaveOrUpdate"}}', form_data, function (out) {
+            $.post('{{urlfor "TaskController.SaveOrUpdate"}}', formData, function (out) {
                 if (out.status == 0) {
                     layer.msg("操作成功", {icon: 1, shade: 0.3, time: 1000}, function () {
                         // window.history.go(-1)

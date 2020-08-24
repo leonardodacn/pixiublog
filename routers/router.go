@@ -38,4 +38,9 @@ func init() {
 	beego.AutoRouter(&controllers.BlogTypeController{})
 	beego.AutoRouter(&controllers.BlogTagController{})
 	beego.AutoRouter(&controllers.BlogLinkController{})
+	beego.AutoRouter(&controllers.BlogCommentController{})
+	beego.AutoRouter(&controllers.BlogController{})
+
+	beego.Router("/blog/:code", &controllers.WebController{}, "get:GetByCode")
+	beego.Router("/robots.txt", &controllers.WebController{}, "get:Robots")
 }

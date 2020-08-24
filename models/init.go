@@ -42,6 +42,9 @@ func Init(startTime int64) {
 		new(BlogType),
 		new(BlogTag),
 		new(BlogLink),
+		new(BlogComment),
+		new(Blog),
+		new(BlogTagRelation),
 	)
 
 	if beego.AppConfig.String("runmode") == "dev" {

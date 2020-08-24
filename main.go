@@ -26,4 +26,8 @@ func main() {
 
 func addTemplateFunc() {
 	beego.AddFuncMap("NumEq", utils.NumEq)
+	beego.AddFuncMap("ModEq", utils.ModEq)
+	beego.AddFuncMap("ContainNum", utils.ContainNum)
+	beego.AddFuncMap("RandNum", utils.RandNum)
+	beego.AddFuncMap("Add", utils.Add)
 }

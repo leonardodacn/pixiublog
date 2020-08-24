@@ -1,5 +1,5 @@
-<div class="layui-layout layui-layout-admin" style="padding-left: 20px;">
-    <div class="layui-row" style="margin-top: 20px;">
+<div class="layui-layout layui-layout-admin" style="padding-left: 10px;">
+    <div class="layui-row" style="margin-top: 10px;">
         <div class="layui-col-xs6">
             <button class="layui-btn" data-type="tabAdd" id="add">新增</button>
         </div>
@@ -62,11 +62,11 @@
                 ,{field:'ip_port', title: 'IP端口'}
                 ,{field:'group_name',title: '分组名称',width:200}
                 ,{field:'detail', title: '备注'}
-                ,{fixed: 'right', width:160, align:'center', toolbar: '#bar'}
+                ,{fixed: 'right', width:160, align:'center', toolbar: '#bar' , title: '操作'}
             ]]
             ,id: 'listReload'
             ,page: true
-            ,height: "full-130"
+            ,height: "full-80"
         });
 
         var $ = layui.$, active = {

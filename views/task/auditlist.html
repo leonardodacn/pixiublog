@@ -1,5 +1,5 @@
-<div class="layui-layout layui-layout-admin" style="padding-left: 20px;">
-    <div class="layui-row" style="margin-top: 20px;">
+<div class="layui-layout layui-layout-admin" style="padding-left: 10px;">
+    <div class="layui-row" style="margin-top: 10px;">
         <div class="layui-col-xs6">
             <div class="layui-btn-group">
                 <a class="layui-btn" data-type="tabAdd" href="/task/add">新增任务</a>
@@ -61,11 +61,11 @@
                 ,{field:'cron_spec',title: '执行时间', width:150}
                 ,{field:'pre_time', width:170,title: '上次执行时间'}
                 ,{field:'execute_times', width:100,title: '次数'}
-                ,{fixed:'right', width:150, align:'center', title:'操作', toolbar: '#bar'}
+                ,{fixed:'right', width:150, align:'center', title:'操作', toolbar: '#bar' , title: '操作'}
             ]]
             ,id: 'listReload'
             ,page: true
-            ,height: "full-130"
+            ,height: "full-80"
         });
 
         var $ = layui.$, active = {

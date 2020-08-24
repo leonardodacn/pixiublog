@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"regexp"
+	"strings"
 	"time"
 
 	"github.com/axgle/mahonia"
@@ -73,4 +74,11 @@ func GbkAsUtf8(str string) string {
 //任务识别码
 func JobKey(taskId, serverId int) int {
 	return taskId*100000 + serverId
+}
+
+func IsEmpty(val string) bool {
+	if len(strings.TrimSpace(val)) == 0 {
+		return true
+	}
+	return false
 }

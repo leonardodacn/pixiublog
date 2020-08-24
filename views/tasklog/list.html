@@ -1,5 +1,5 @@
-<div class="layui-layout layui-layout-admin" style="padding-left: 20px;">
-    <div class="layui-row" style="margin-top: 20px;">
+<div class="layui-layout layui-layout-admin" style="padding-left: 10px;">
+    <div class="layui-row" style="margin-top: 10px;">
         <div class="layui-col-xs6">
             <button class="layui-btn layui-btn-danger" data-type="tabDel" id="tabDel">批量删除</button>
         </div>
@@ -56,11 +56,11 @@
                 ,{field:'process_time',width:100, title: '执行时间'}
                 ,{field:'output_size',title: '输出'}
                 ,{field:'status', width:100,title: '状态'}
-                ,{fixed: 'right', align:'center', title:'操作', toolbar: '#bar'}
+                ,{fixed: 'right', align:'center', title:'操作', toolbar: '#bar' , title: '操作'}
             ]]
             ,id: 'listReload'
             ,page: true
-            ,height: "full-130"
+            ,height: "full-80"
         });
 
         var $ = layui.$, active = {
