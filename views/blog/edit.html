@@ -1,0 +1,199 @@
+<link href="/static/md/simplemde.min.css" rel="stylesheet">
+<link href="/static/md/github-markdown.min.css" rel="stylesheet">
+<link href="/static/md/github.min.css" rel="stylesheet">
+<style>
+    .nav-title{
+        display: none;
+    }
+</style>
+<div class="layui-layout layui-layout-admin" style="padding-left: 100px;margin-top: 20px;">
+
+    <form class="layui-form" action="" method="post" >
+        <div class="layui-form-item">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-inline" style="min-width: 450px;">
+                    <input type="text" name="title" id="title" lay-verify="required" autocomplete="off" class="layui-input" value="{{.data.title}}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">地址</label>
+                <div class="layui-input-inline" style="min-width: 450px;">
+                    <input type="text" autocomplete="off" class="layui-input" value="{{.data.code}}" disabled>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">关键字</label>
+                <div class="layui-input-inline" style="min-width: 450px;">
+                    <input type="text" name="keywords" id="keywords" lay-verify="required" autocomplete="off" class="layui-input" value="{{.data.keywords}}">
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">简介</label>
+                <div class="layui-input-inline" style="min-width: 450px;">
+                    <textarea type="text" name="description" id="description" class="layui-textarea"  lay-verify="required">{{.data.description}}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-inline" style="min-width: 450px;">
+                    <textarea type="text" id="editor" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类</label>
+                <div class="layui-input-inline">
+                    <select name="typeId" lay-verify="required">
+                        <option value="">请选择</option>
+                        {{range .blogTypes}}
+                        <option value="{{.Id}}" {{if NumEq .Id $.data.typeId}}selected=""{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">*</div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">标签</label>
+                <div class="layui-input-block">
+                    {{range $index, $elem := .blogTags}}
+                        <input type="checkbox" tag="tags" value="{{$elem.Id}}" title="{{$elem.Name}}" {{if ContainNum $.selectBlogTags $elem.Id}}checked=""{{end}}>
+                        {{if ModEq $index 4 1 }}
+                            <div/>
+                        {{end}}
+                    {{end}}
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="0" title="草稿" {{if NumEq 0 .data.status}}checked=""{{end}}>
+                    <input type="radio" name="status" value="1" title="发布" {{if NumEq 1 .data.status}}checked=""{{end}}>
+                    <input type="radio" name="status" value="2" title="隐藏" {{if NumEq 2 .data.status}}checked=""{{end}}>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">原创</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" {{if NumEq 1 .data.original}}checked=""{{end}} fValue="original" lay-text="ON|OFF" lay-skin="switch"  lay-filter="switch">
+                        <input type="hidden" id="original" name="original" value="{{.data.original}}">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">开启评论</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" {{if NumEq 1 .data.comment}}checked=""{{end}} fValue="comment" lay-text="ON|OFF" lay-skin="switch" lay-filter="switch">
+                        <input type="hidden" id="comment" name="comment" value="{{.data.comment}}">
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            <input type="hidden" name="id" id="id" value="{{.data.id}}">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="sub">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+    </form>
+</div>
+<script type="text/javascript" src="/static/md/highlight.min.js"></script>
+<script type="text/javascript" src="/static/md/simplemde.min.js"></script>
+<script>
+    var simplemde = new SimpleMDE({ 
+        element: document.getElementById("editor"),
+        // 自动下载FontAwesome，设为false为不下载(如果设为false则必须手动引入)
+        autoDownloadFontAwesome: false,
+        // 自动聚焦输入框
+        autofocus: true,
+        // 是否自动保存正在编写的文本
+        autosave: {
+            // 启用自动保存功能
+            enabled: true,
+            // 自动保存的间隔，以毫秒为单位。默认为15000（15s）
+            delay: 15000,
+            // 唯一的字符串标识符(保证每个SimpleMDE编辑器的uniqueId唯一)
+            uniqueId: 'md_editor_0',
+            msg: "自动保存成功了"
+        },
+        placeholder: "请输入文本内容",
+        // 如果设置为true，则会出现JS警报窗口，询问链接或图像URL(插入图片或链接弹窗)。默认为false
+        promptURLs: false,
+        renderingConfig: {
+            // 如果设置为true，将使用highlight.js高亮显示。默认为false
+            codeSyntaxHighlighting: true
+        },
+        showIcons: ["code", "table", "clean-block", "horizontal-rule"],
+        tabSize: 4,
+        status: false
+    });
+
+    var $;
+    layui.use(['form','element','layer','jquery'],function(){
+        var form = layui.form; 
+        var $ = layui.jquery;
+        var error_info = "{{.flash.error}}";
+        if(error_info){
+            layer.msg(error_info,{icon: 2,shade:0.3},function () {
+                window.history.go(-1)
+            })
+            return;
+        }
+
+        var contentMd = "{{.data.contentMd}}";
+        simplemde.value(contentMd);
+
+
+        form.on('submit(sub)', function(data){
+            var content = simplemde.value();
+            if(!content){
+                layer.msg("请输入文本内容");
+                return false;
+            }
+            var tags = [];
+            $('input[tag=tags]:checked').each(function() {
+                tags.push($(this).val());
+            });
+
+            var formData = data.field;
+            formData["contentMd"] = content;
+            formData["content"] = simplemde.markdown(content);
+            formData["tags"] = tags.join(",");
+            $.post('{{urlfor "BlogController.SaveOrUpdate"}}', formData, function (out) {
+                if (out.status == 0) {
+                    layer.msg("操作成功",{icon: 1,shade:0.3,time:1000},function () {
+                        window.parent.deleteCurrentTab();
+                    })
+                } else {
+                    layer.msg(out.message)
+                }
+            }, "json");
+            return false;
+        });
+
+        //但是，如果你的HTML是动态生成的，自动渲染就会失效
+        //因此你需要在相应的地方，执行下述方法来手动渲染，跟这类似的还有 element.init();
+        form.render();
+
+         //监听指定开关
+        form.on('switch(switch)', function(data){
+            var field = data.elem.getAttribute('fValue');
+            $("#" + field).val(this.checked ? 1 : 0);
+        });
+    });
+
+</script>

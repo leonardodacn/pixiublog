@@ -54,12 +54,14 @@ func (self *BlogTypeController) SaveOrUpdate() {
 		if _, err := blogType.Add(blogType); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
+		clearTypes()
 		self.ajaxMsg("", MSG_OK)
 	}
 
 	if err := blogType.Update(blogType); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearTypes()
 	self.ajaxMsg("", MSG_OK)
 }
 
@@ -77,6 +79,7 @@ func (self *BlogTypeController) Del() {
 	if err := blogType.Update(blogType); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearTypes()
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
@@ -104,4 +107,33 @@ func (self *BlogTypeController) GetList() {
 	result := make([]*BlogType, 0)
 	count := blogType.GetList(blogType.TableName(), page, self.pageSize, &result, filters...)
 	self.ajaxList("成功", MSG_OK, count, result)
+}
+
+var gBlogTypes = make([]*BlogType, 0)
+
+func getAllTypes() []*BlogType {
+	if len(gBlogTypes) > 0 {
+		return gBlogTypes
+	}
+	filters := make([]interface{}, 0)
+	filters = append(filters, "status", 0)
+	blogType := &BlogType{}
+	blogType.GetAll(blogType.TableName(), &gBlogTypes, "sort", filters...)
+	return gBlogTypes
+}
+
+func clearTypes() {
+	gBlogTypes = gBlogTypes[0:0]
+}
+
+func getTypeById(id int) *BlogType {
+	blogTypes := getAllTypes()
+	if len(blogTypes) > 0 {
+		for _, v := range blogTypes {
+			if v.Id == id {
+				return v
+			}
+		}
+	}
+	return nil
 }

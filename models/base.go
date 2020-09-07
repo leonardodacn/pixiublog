@@ -59,7 +59,7 @@ func (t *Base) GetTopList(tableName string, size int, result interface{}, orderB
 	query.OrderBy(orderBy).Limit(size).All(result)
 }
 
-func (t *Base) GetAll(tableName string, result interface{}, filters ...interface{}) {
+func (t *Base) GetAll(tableName string, result interface{}, orderBy string, filters ...interface{}) {
 	query := orm.NewOrm().QueryTable(tableName)
 	if len(filters) > 0 {
 		l := len(filters)
@@ -67,7 +67,10 @@ func (t *Base) GetAll(tableName string, result interface{}, filters ...interface
 			query = query.Filter(filters[k].(string), filters[k+1])
 		}
 	}
-	query.OrderBy("-id").All(result)
+	if len(orderBy) <= 0 {
+		orderBy = "-id"
+	}
+	query.OrderBy(orderBy).All(result)
 }
 
 func (t *Base) GetOne(tableName string, result interface{}, filters ...interface{}) {

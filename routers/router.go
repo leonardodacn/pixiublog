@@ -41,6 +41,16 @@ func init() {
 	beego.AutoRouter(&controllers.BlogCommentController{})
 	beego.AutoRouter(&controllers.BlogController{})
 
-	beego.Router("/blog/:code", &controllers.WebController{}, "get:GetByCode")
-	beego.Router("/robots.txt", &controllers.WebController{}, "get:Robots")
+	beego.Router("/", &controllers.WebController{}, "get,post:Index")
+	beego.Router("/index/?:page", &controllers.WebController{}, "get,post:Index")
+	beego.Router("/type/?:type", &controllers.WebController{}, "get:Type")
+	beego.Router("/tag/?:tag", &controllers.WebController{}, "get:Tag")
+	beego.Router("/recommended/?:page", &controllers.WebController{}, "get:Recommended")
+	beego.Router("/blog/?:code", &controllers.WebController{}, "get:GetByCode")
+	beego.Router("/about", &controllers.WebController{}, "get:About")
+	beego.Router("/links", &controllers.WebController{}, "get:Links")
+	beego.Router("/robots.txt", &controllers.WebSeoController{}, "get:Robots")
+	beego.Router("/sitemap.txt", &controllers.WebSeoController{}, "get:SiteMapTxt")
+	beego.Router("/sitemap.html", &controllers.WebSeoController{}, "get:SiteMapHtml")
+	beego.Router("/sitemap.xml", &controllers.WebSeoController{}, "get:SiteMapXml")
 }

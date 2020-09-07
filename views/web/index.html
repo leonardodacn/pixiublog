@@ -1,0 +1,40 @@
+<div class="container-fluid custome-container">
+    <div class="row">
+        <div class="col-sm-7 col-sm-offset-1 col-md-7 col-md-offset-1 col-lg-7 col-lg-offset-1 blog-main">
+            {{range .blogs}}
+                    <article class="fade-in">
+                        <header class="entry-header">
+                            <h2 class="entry-title">
+                                <a href="{{$.config.siteUrl}}/blog/{{.Code}}" rel="bookmark" title="点击查看文章详情" data-toggle="tooltip" data-placement="bottom">{{.Title}}</a>
+                            </h2>
+                        </header>
+                        <div class="entry-content">
+                            <div class="archive-content">
+                                {{.Description}}
+                            </div>
+                            <span class="title-l"></span>
+                            <span class="entry-meta">
+                                <span class="date" title="文章发表日期" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-clock-o fa-fw"></i>{{DateStr .CreateTime}}</span>
+                                <span class="views" title="文章阅读次数" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-eye fa-fw"></i>浏览({{.LookCount}})</span>
+                            </span>
+                            <div class="clear"></div>
+                            <span class="entry-more">
+                                <a href="{{$.config.siteUrl}}/blog/{{.Code}}" rel="bookmark" title="点击查看文章详情" data-toggle="tooltip" data-placement="bottom">阅读全文</a>
+                            </span>
+                        </div>
+                    </article>
+            {{end}}
+           {{if gt .page.Pages 1 }}
+            <nav class="pagination"
+                data-url="{{.config.siteUrl}}/{{.url}}"
+                data-search="{{if .isSearch}}true{{else}}false{{end}}"
+                data-total-page="{{.page.Pages}}"
+                data-current-page="{{.page.PageNum}}"
+                data-pre="{{.page.PrePage}}"
+                data-next="{{.page.NextPage}}">
+            </nav>
+            {{end}}
+        </div>
+        {{template "web/sidebar.html" .}}
+    </div>
+</div>

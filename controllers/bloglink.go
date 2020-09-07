@@ -52,6 +52,7 @@ func (self *BlogLinkController) SaveOrUpdate() {
 		if _, err := blogLink.Add(blogLink); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
+		clearBlogLinks()
 		self.ajaxMsg("", MSG_OK)
 	}
 
@@ -59,6 +60,7 @@ func (self *BlogLinkController) SaveOrUpdate() {
 	if err := blogLink.Update(blogLink); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearBlogLinks()
 	self.ajaxMsg("", MSG_OK)
 }
 
@@ -76,6 +78,7 @@ func (self *BlogLinkController) Del() {
 	if err := blogLink.Update(blogLink); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearBlogLinks()
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
@@ -102,4 +105,37 @@ func (self *BlogLinkController) GetList() {
 	result := make([]*BlogLink, 0)
 	count := blogLink.GetList(blogLink.TableName(), page, self.pageSize, &result, filters...)
 	self.ajaxList("成功", MSG_OK, count, result)
+}
+
+// 首页显示的友情链接
+var gHomeBlogLinks = make([]*BlogLink, 0)
+
+func getAllHomeBlogLink() []*BlogLink {
+	if len(gHomeBlogLinks) > 0 {
+		return gHomeBlogLinks
+	}
+	blogLink := &BlogLink{}
+	blogFileters := make([]interface{}, 0)
+	blogFileters = append(blogFileters, "home_page_display", 1)
+	blogFileters = append(blogFileters, "status", 0)
+	blogLink.GetAll(blogLink.TableName(), &gHomeBlogLinks, "", blogFileters...)
+	return gHomeBlogLinks
+}
+
+var gBlogLinks = make([]*BlogLink, 0)
+
+func getAllBlogLink() []*BlogLink {
+	if len(gBlogLinks) > 0 {
+		return gBlogLinks
+	}
+	blogLink := &BlogLink{}
+	blogFileters := make([]interface{}, 0)
+	blogFileters = append(blogFileters, "status", 0)
+	blogLink.GetAll(blogLink.TableName(), &gBlogLinks, "", blogFileters...)
+	return gBlogLinks
+}
+
+func clearBlogLinks() {
+	gHomeBlogLinks = gHomeBlogLinks[0:0]
+	gBlogLinks = gBlogLinks[0:0]
 }

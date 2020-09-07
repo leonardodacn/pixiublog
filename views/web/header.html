@@ -1,0 +1,40 @@
+<script type="text/javascript" src="/static/web/libs/js/jquery.1.11.1.min.js"></script>
+<nav id="mainmenu" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="menu-box">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="menu_home" href="/"><i class="fa fa-home"></i>首页</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav ">
+                {{range $index, $elem := .blogTypes}}
+                <!-- //TODO 有子目录的情况
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle menu_a" data-toggle="dropdown" aria-expanded="false">
+                            <i class="${item.icon?if_exists}"></i>${item.name?if_exists} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <#list item.nodes as node>
+                            <li><a href="/type/${node.id?c}" title="点击查看《${node.name?if_exists}》的文章">${node.name?if_exists}</a></li>
+                            </#list>
+                        </ul>
+                    </li>
+                -->
+                    {{if NumEq 1 $elem.Available}}
+                        <li><a href="/type/{{$elem.Id}}" class="menu_a"><i class="{{$elem.Icon}}"></i>{{$elem.Name}}</a></li>
+                    {{end}}
+                {{end}}
+                <!-- TOTO
+                    <li><a href="/guestbook" class="menu_a"><i class="fa fa-comments-o"></i>留言板</a></li>
+                -->
+                <li><a href="/about" class="menu_a"> <i class="fa fa-info"></i>关于</a></li>
+                <li><a class="menu_a" data-toggle="modal" data-target=".nav-search-box" href="#"><i class="fa fa-search"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

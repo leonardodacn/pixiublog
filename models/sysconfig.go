@@ -8,7 +8,7 @@ import (
 )
 
 type SysConfig struct {
-	Id          int
+	Base
 	ConfigKey   string
 	ConfigValue string
 	CreateTime  time.Time
@@ -39,9 +39,8 @@ func SysConfigAdd(t *SysConfig) (int64, error) {
 }
 
 func SysConfigGetById(id int) (*SysConfig, error) {
-	obj := &SysConfig{
-		Id: id,
-	}
+	obj := &SysConfig{}
+	obj.Id = id
 	err := orm.NewOrm().Read(obj)
 	if err != nil {
 		return nil, err

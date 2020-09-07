@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    {{if .isBlog}}
+    <title>{{.blog.Title}}</title>
+    <meta name="keywords" content="{{.blog.Keywords}}"/>
+    <meta name="description" content="{{.blog.Description}}">
+    <link rel="canonical" href="{{.config.siteUrl}}/blog/{{.blog.Code}}" />
+    {{else}}
+    <title>{{.config.siteName}}</title>
+    <meta name="keywords" content="{{.config.siteKeywords}}"/>
+    <meta name="description" content="{{.config.siteDesc}}">
+    {{end}}
+    <link href="/static/web/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/static/web//libs/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/web//libs/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/web//libs/css/jquery-confirm.min.css" rel="stylesheet">
+    <link href="/static/web//libs/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/static/web//libs/css/bootstrapValidator.min.css" rel="stylesheet">
+    <link href="/static/web//libs/css/nprogress.min.css" rel="stylesheet">
+    <link href="/static/web//css/core.css" rel="stylesheet" type="text/css">
+    <link href="/static/web//css/comment.css" rel="stylesheet" type="text/css">
+    <!--黑白界面
+    <style>
+        html {
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: url("data:image/svg+xml;utf8,<svg xmlns="\'http://www.w3.org/2000/svg\'"><filter id="\'grayscale\'"><feColorMatrix type="\'matrix\'" values="\'0.3333" 0.3333="" 0="" 1="" 0\'=""></fecolormatrix></filter></svg>#grayscale");filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter:grayscale(1);}
+    </style>-->
+</head>
+<body>
+{{template "web/header.html" .}}
+
+{{.LayoutContent}}
+
+{{template "web/footer.html" .}}
+</body>
+</html>

@@ -1,0 +1,145 @@
+<div class="container-fluid custome-container">
+    <div class="row article-body">
+        <div class="col-sm-7 col-sm-offset-1 col-md-7 col-md-offset-1 col-lg-7 col-lg-offset-1 blog-main">
+            <div class="blog-body overflow-initial fade-in">
+                <div class="article-flag">
+                     <div class="text-center">
+                     	<h1 class="blog-info-title">
+                        	<strong>{{.blog.Title}}</strong>
+                    	</h1>	
+                     </div>
+                    <div class="blog-info-meta pull-right">
+                        <ul class="list-unstyled list-inline">
+                            <li><i class="fa fa-clock-o fa-fw"></i>{{DateStr .blog.CreateTime}}</li>
+                            <li><i class="fa fa-eye fa-fw"></i>浏览 (<num>{{.blog.LookCount}}</num>)</li>
+                        </ul>
+                    </div>
+                    <hr style="clear:both;"/>
+                </div>
+                <div class="blog-info overflow-initial">
+                    <div class="blogContent {{if NumEq 1 .data.IsMarkdown}}markdown-body editor-preview-active-side{{end}}">
+                        {{.content}}
+                    </div>
+                    <div class="separateline"></div>
+                    <div id="social">
+                        <div class="social-main">
+                            <div class="share-sd">
+                                <span class="share-s"><a href="javascript:void(0)" id="share-s" title="分享"><i class="fa fa-share-alt"></i>分享</a></span>
+                                <div id="share" style="display: none">
+                                    <ul class="bdsharebuttonbox bdshare-button-style1-16">
+                                        <li><a title="分享到QQ空间" class="fa fa-qq" data-cmd="qzone" onclick="return false;" href="#"></a></li>
+                                        <li><a title="分享到新浪微博" class="fa fa-weibo" data-cmd="tsina" onclick="return false;" href="#"></a></li>
+                                        <li><a title="分享到微信" class="fa fa-weixin" data-cmd="weixin" onclick="return false;" href="#"></a></li>
+                                        <li><a title="更多" class="bds_more fa fa-plus-square" data-cmd="more" onclick="return false;" href="#"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-body article-tag">
+                <div class="cat">
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>所属分类：</strong>
+                            <a href="/type/{{.blogType.Id}}" data-original-title="点击查看{{.blogType.Name}}分类的文章" data-toggle="tooltip" data-placement="bottom">{{.blogType.Name}}</a>
+                        </li>
+                        <li>
+                            <strong>本文标签：</strong>
+                                {{range .selectBlogTags}}
+                                    <a href="/tag/{{.Id}}" class="c-label" data-original-title="{{.Name}}" data-toggle="tooltip" data-placement="bottom" target="_blank">{{.Name}}</a>
+                                {{end}}
+                        </li>
+                        <li>
+                            <strong>版权声明：</strong>
+                            原创文章如转载，请注明本文链接: {{.config.siteUrl}}/blog/{{.blog.Code}} 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="blog-body">
+            <!--
+                <a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=tplpdv2n" target="_blank" rel="external nofollow">
+                    <img src="{{.config.staticWebSite}}/img/ad/aliyun_sale1000-60.png" alt="阿里云优惠券" class="img-responsive" style="width: 100%;">
+                </a>
+            -->
+
+            </div>
+            <div class="blog-body prev-next">
+                <nav class="nav-single wow" data-wow-delay="0.3s">
+                    {{if .pre}}
+                        <a href="{{.config.siteUrl}}/blog/{{.preBlog.Code}}" rel="prev">
+                            <span class="meta-nav" data-original-title="{{.preBlog.Title}}" data-toggle="tooltip" data-placement="bottom"><span class="post-nav"><i class="fa fa-angle-left"></i> 上一篇</span>
+                                <br>{{.preBlog.Title}}
+                            </span>
+                        </a>
+                    {{else}}
+                        <a href="javascript:void(0)" rel="nofollow prev">
+                            <span class="meta-nav" data-original-title="已经到第一篇了" data-toggle="tooltip" data-placement="bottom"><span class="post-nav"><i class="fa fa-angle-left"></i> 上一篇</span>
+                                <br>已经到第一篇了
+                            </span>
+                        </a>
+                    {{end}}
+                    {{if .next}}
+                        <a href="{{.config.siteUrl}}/blog/{{.nextBlog.Code}}" rel="next">
+                            <span class="meta-nav" data-original-title="{{.nextBlog.Title}}" data-toggle="tooltip" data-placement="bottom"><span class="post-nav">下一篇 <i class="fa fa-angle-right"></i></span>
+                                <br>{{.nextBlog.Title}}
+                            </span>
+                        </a>
+                    {{else}}
+                        <a href="javascript:void(0)" rel="nofollow next">
+                            <span class="meta-nav" data-original-title="已经到最后一篇了" data-toggle="tooltip" data-placement="bottom"><span class="post-nav">下一篇 <i class="fa fa-angle-right"></i></span>
+                                <br>已经到最后一篇了
+                            </span>
+                        </a>
+                    {{end}}
+                    <div class="clear"></div>
+                </nav>
+            </div>
+            <!-- 热门推荐 -->
+            <div class="blog-body clear overflow-initial">
+                <h5 class="custom-title"><i class="fa fa-fire fa-fw icon"></i><strong>热门推荐</strong><small></small></h5>
+                <ul class="list-unstyled">
+                    {{range $index, $elem := .hotBlogs}}
+                        <li class="line-li">
+                            <div class="line-container">
+                                <div class="line-right">
+                                    <div class="text">
+                                        <a href="{{$.config.siteUrl}}/blog/{{$elem.Code}}" data-original-title="{{$elem.LookCount}}人浏览了该文章" data-toggle="tooltip" data-placement="bottom">
+                                            {{$elem.Title}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {{end}}
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <!--评论
+            {{if NumEq 1 .blog.Comment}}
+                <div class="blog-body clear overflow-initial expansion">
+                    <div id="comment-box" data-id="{{.blog.Id}}"></div>
+                </div>
+           {{end}}
+           -->
+        </div>
+        {{template "web/blogSidebar.html" .}}
+    </div>
+</div>
+
+<script type="text/javascript">
+    /*
+        百度分享
+        建议改成自己的百度分享js，否则你是没法查看分享的统计结果的。
+     */
+    var bdText = $("#meta_description").attr("content")+" - by ${config.domain}";
+    // 如果文章没有封面图，则取默认的图片
+    var coverImg = $("#cover-img").attr("src") || "${config.staticWebSite}/img/default_article_cover.jpg";
+    window._bd_share_config1={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","qzone","tsina","bdysc","weixin","renren","tqq","bdxc","kaixin001","tieba","bdhome","ibaidu","youdao","ty","linkedin","h163"],"bdPic":coverImg,"bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"2","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","slide":{"type":"slide","bdImg":"2","bdPos":"right","bdTop":"100"},"bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script type="text/javascript" src="/static/web/libs/js/highlight.min.js"></script>
+<script type="text/javascript" src="/static/web/libs/js/simplemde.min.js"></script>

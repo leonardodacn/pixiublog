@@ -1,0 +1,38 @@
+<div class="col-sm-3 blog-sidebar">
+    <div class="sidebar-module">
+        <h5 class="custom-title"><i class="fa fa-tags fa-fw icon"></i><strong>标签云</strong><small></small></h5>
+        {{range $index, $elem := .blogTags}}
+        <a style="font-size: {{RandNum 15 8}}px;margin: 5px;" href="/tag/{{$elem.Id}}" title="{{$elem.Name}}" data-toggle="tooltip" data-placement="bottom">
+            {{$elem.Name}}
+        </a>
+        {{end}}
+    </div>
+    <div class="clear"></div>
+    <div class="sidebar-module">
+        <h5 class="custom-title"><i class="fa fa-plus icon"></i><strong>最新文章</strong><small></small></h5>
+        <ul class="ul-default newest-info">
+                {{range $index, $elem := .recentBlogs}}
+                    <li>
+                        {{ Add $index 1}}、 
+                        <a href="{{$.config.siteUrl}}/blog/{{$elem.Code}}" title="{{$elem.Title}}" data-toggle="tooltip" data-placement="bottom">
+                            {{$elem.Title}}
+                        </a>
+                    </li>
+                {{end}}
+      	</ul>
+    </div>
+    <div class="clear"></div>
+    <div class="sidebar-module article-module hide" style="top: 0;">
+        <h5 class="custom-title"><i class="fa fa-book fa-fw icon"></i><strong>本文目录</strong><i class="fa fa-close pull-right close-article-menu hide pointer"></i><small></small></h5>
+        <div id="article-menu">
+            <ul class="list-unstyled"></ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <!-- TODO 投放广告
+    <div class="sidebar-module">
+        <h5 class="custom-title"><i class="fa fa-info fa-fw icon"></i><strong>广告</strong><small></small></h5>
+        <a data-type="3" data-tmpl="210x220" data-tmplid="184" data-rd="2" data-style="2" data-border="1" href="#"></a>
+    </div>
+    -->
+</div>

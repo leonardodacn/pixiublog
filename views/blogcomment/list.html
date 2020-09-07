@@ -1,0 +1,134 @@
+<div class="layui-layout layui-layout-admin" style="padding-left: 10px;">
+    <div class="layui-row" style="margin-top: 10px;">
+        <div class="layui-col-xs12 search_text">
+            <form class="layui-form" action="" onsubmit="javascript:return false;">
+                <div class="demoTable">
+                    <div class="layui-inline" style="width: 20%">
+                        <input class="layui-input" name="content" id="content" autocomplete="off" placeholder="内容" >
+                    </div>
+                    <button class="layui-btn" data-type="reload">查询</button>
+                    <button class="layui-btn" onclick="javascript:window.location.reload();">
+                        <i class="fa fa-refresh" aria-hidden="true" id="reload"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="layui-hide" id="table_list" lay-filter="table_filter">
+    </table>
+
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+    </script>
+</div>
+<script>
+
+    layui.use(['table','form','element'], function(){
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        var error_info = "{{.flash.error}}";
+        if(error_info){
+            layer.msg(error_info,{icon: 2,shade:0.3},function () {
+                window.history.go(-1)
+            })
+            return;
+        }
+        //方法级渲染
+        table.render({
+            elem: '#table_list'
+            ,url: '/blogcomment/getlist'
+            ,height: 'full-80'
+            ,cols: [[
+                //{checkbox: true, fixed: true},
+                {field:'id', title: 'ID', align:'center',sort: true, width:80}
+                ,{field:'nickname',title: '作者', width:100
+                    ,templet: function(d){
+                       return d.nickname + '<hr/>qq:' + d.qq + '<hr/>email:' + d.email
+                    }
+                }
+                ,{field:'content',title: '内容'}
+                ,{field:'support',title: '赞/踩', width:80
+                    ,templet: function(d){
+                        return d.support + '/' + d.oppose;
+                    }
+                }
+                ,{field:'status',title: '状态',width:100
+                ,templet: function(d){
+                        if(d.status == 0){
+                            return '<span class="layui-badge layui-bg-blue">待审核</span>';
+                        }
+                        if(d.status == 1){
+                            return '<span class="layui-badge layui-bg-cyan">审核通过</span>';
+                        }
+                        if(d.status == 2){
+                            return '<span class="layui-badge layui-bg-orange">不通过</span>';
+                        }
+                        return d.status;
+                    }
+                }
+                ,{fixed: 'right', width:160, align:'center', toolbar: '#bar' , title: '操作'}
+            ]]
+            ,id: 'listReload'
+            ,page: true
+            ,height: "full-80"
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                table.reload('listReload', {
+                    where: {
+                        name: $('#content').val(),
+                    },
+                    page: 1
+                });
+            }
+        };
+
+        //监听工具条
+        table.on('tool(table_filter)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2,
+                    shade: 0.3,
+                    id:1,
+                    title:"审核",
+                    content: '/blogcomment/edit?id='+data.id,
+                    area:['500px','250px'],
+                    cancel:function(index){
+                        window.location.reload();
+                        layer.close(index);
+                    }
+                });
+            } else if(obj.event === 'del'){
+                layer.confirm('确定删除【'+data.id+'】吗', function(index){
+                    var jsData = {'id':data.id,'status':status}
+                    $.post('{{urlfor "BlogCommentController.Del"}}', jsData, function (out) {
+                        if (out.status == 0) {
+                            layer.alert(out.message, {icon: 1},function(index){
+                                layer.close(index);
+                                window.location.reload();
+                            });
+                        } else {
+                            layer.msg(out.message)
+                        }
+                    }, "json");
+                    layer.close(index);
+                })
+
+            }else{
+                layer.msg('操作不存在');
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+</script>

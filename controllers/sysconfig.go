@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"pixiublog/models"
+	. "pixiublog/models"
 
 	"github.com/astaxie/beego"
 )
@@ -20,7 +20,7 @@ func (self *SysConfigController) List() {
 func (self *SysConfigController) Add() {
 	filters := make([]interface{}, 0)
 	filters = append(filters, "status", 1)
-	result, _ := models.RoleGetList(1, 1000, filters...)
+	result, _ := RoleGetList(1, 1000, filters...)
 	list := make([]map[string]interface{}, len(result))
 	for k, v := range result {
 		row := make(map[string]interface{})
@@ -36,7 +36,7 @@ func (self *SysConfigController) Add() {
 
 func (self *SysConfigController) Edit() {
 	id, _ := self.GetInt("id", 0)
-	sysConfig, _ := models.SysConfigGetById(id)
+	sysConfig, _ := SysConfigGetById(id)
 	row := make(map[string]interface{})
 	row["id"] = sysConfig.Id
 	row["configKey"] = sysConfig.ConfigKey
@@ -49,20 +49,21 @@ func (self *SysConfigController) Edit() {
 func (self *SysConfigController) SaveOrUpdate() {
 	id, _ := self.GetInt("id")
 	if id == 0 {
-		sysConfig := new(models.SysConfig)
+		sysConfig := new(SysConfig)
 		sysConfig.ConfigKey = strings.TrimSpace(self.GetString("configKey"))
 		sysConfig.ConfigValue = strings.TrimSpace(self.GetString("configValue"))
 		sysConfig.ConfigDesc = strings.TrimSpace(self.GetString("configDesc"))
 		sysConfig.CreateTime = time.Now()
 		sysConfig.UpdateTime = time.Now()
 
-		if _, err := models.SysConfigAdd(sysConfig); err != nil {
+		if _, err := SysConfigAdd(sysConfig); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
+		clearSysConfigs()
 		self.ajaxMsg("", MSG_OK)
 	}
 
-	sysConfig, _ := models.SysConfigGetById(id)
+	sysConfig, _ := SysConfigGetById(id)
 	//修改
 	sysConfig.Id = id
 	sysConfig.ConfigKey = strings.TrimSpace(self.GetString("configKey"))
@@ -73,18 +74,20 @@ func (self *SysConfigController) SaveOrUpdate() {
 	if err := sysConfig.Update(); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearSysConfigs()
 	self.ajaxMsg("", MSG_OK)
 }
 
 func (self *SysConfigController) Del() {
 	id, _ := self.GetInt("id")
-	sysConfig, _ := models.SysConfigGetById(id)
+	sysConfig, _ := SysConfigGetById(id)
 	sysConfig.UpdateTime = time.Now()
 	sysConfig.Status = 1
 
 	if err := sysConfig.Update(); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearSysConfigs()
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
@@ -108,7 +111,7 @@ func (self *SysConfigController) GetList() {
 	if configKey != "" {
 		filters = append(filters, "config_key__icontains", configKey)
 	}
-	result, count := models.SysConfigGetList(page, self.pageSize, filters...)
+	result, count := SysConfigGetList(page, self.pageSize, filters...)
 	list := make([]map[string]interface{}, len(result))
 	for k, v := range result {
 		row := make(map[string]interface{})
@@ -121,4 +124,27 @@ func (self *SysConfigController) GetList() {
 		list[k] = row
 	}
 	self.ajaxList("成功", MSG_OK, count, list)
+}
+
+var gSysConfigs = make(map[string]string)
+
+func getAllSysConfig() map[string]string {
+	if len(gSysConfigs) > 0 {
+		return gSysConfigs
+	}
+	sysConfig := &SysConfig{}
+	filters := make([]interface{}, 0)
+	filters = append(filters, "status", 0)
+	configs := make([]*SysConfig, 0)
+	sysConfig.GetAll(sysConfig.TableName(), &configs, "", filters...)
+	if len(configs) > 0 {
+		for _, v := range configs {
+			gSysConfigs[v.ConfigKey] = v.ConfigValue
+		}
+	}
+	return gSysConfigs
+}
+
+func clearSysConfigs() {
+	gSysConfigs = make(map[string]string)
 }

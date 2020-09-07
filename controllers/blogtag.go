@@ -56,6 +56,7 @@ func (self *BlogTagController) SaveOrUpdate() {
 		if _, err := blogTag.Add(blogTag); err != nil {
 			self.ajaxMsg(err.Error(), MSG_ERR)
 		}
+		clearTags()
 		self.ajaxMsg("", MSG_OK)
 	}
 
@@ -63,6 +64,7 @@ func (self *BlogTagController) SaveOrUpdate() {
 	if err := blogTag.Update(blogTag); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearTags()
 	self.ajaxMsg("", MSG_OK)
 }
 
@@ -80,6 +82,7 @@ func (self *BlogTagController) Del() {
 	if err := blogTag.Update(blogTag); err != nil {
 		self.ajaxMsg(err.Error(), MSG_ERR)
 	}
+	clearTags()
 	self.ajaxMsg("操作成功", MSG_OK)
 }
 
@@ -108,4 +111,33 @@ func (self *BlogTagController) GetList() {
 	result := make([]*BlogTag, 0)
 	count := blogTag.GetList(blogTag.TableName(), page, self.pageSize, &result, filters...)
 	self.ajaxList("成功", MSG_OK, count, result)
+}
+
+var gBlogTags = make([]*BlogTag, 0)
+
+func getAllTags() []*BlogTag {
+	if len(gBlogTags) > 0 {
+		return gBlogTags
+	}
+	filters := make([]interface{}, 0)
+	filters = append(filters, "status", 0)
+	blogTag := &BlogTag{}
+	blogTag.GetAll(blogTag.TableName(), &gBlogTags, "", filters...)
+	return gBlogTags
+}
+
+func clearTags() {
+	gBlogTags = gBlogTags[0:0]
+}
+
+func getTagById(id int) *BlogTag {
+	blogTags := getAllTags()
+	if len(blogTags) > 0 {
+		for _, v := range blogTags {
+			if v.Id == id {
+				return v
+			}
+		}
+	}
+	return nil
 }
