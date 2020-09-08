@@ -104,6 +104,8 @@ func (self *WebController) About() {
 }
 
 func (self *WebController) GetByCode() {
+	setHomeData(self)
+
 	code := self.GetString(":code")
 	blog := &Blog{}
 	blogFileters := make([]interface{}, 0)
@@ -111,6 +113,11 @@ func (self *WebController) GetByCode() {
 	blogFileters = append(blogFileters, "status__gt", 0)
 	blogFileters = append(blogFileters, "status__lt", 3)
 	blog.GetOne(blog.TableName(), blog, blogFileters...)
+
+	if blog.Id == 0 {
+		self.Abort("404")
+	}
+
 	self.Data["blog"] = blog
 	self.Data["content"] = template.HTML(blog.Content)
 	self.Data["isBlog"] = true
@@ -134,8 +141,6 @@ func (self *WebController) GetByCode() {
 	if blogType := getTypeById(int(blog.TypeId)); blogType != nil {
 		self.Data["blogType"] = blogType
 	}
-
-	setHomeData(self)
 
 	setPreNextBlog(self, blog.Id, true)
 	setPreNextBlog(self, blog.Id, false)

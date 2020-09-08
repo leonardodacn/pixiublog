@@ -92,7 +92,7 @@ func SumByDays(limit int, status string) orm.Params {
 
 	if RunNumCache.IsExist(key) {
 		json.Unmarshal(RunNumCache.Get(key).([]byte), &res)
-		logs.Info("cache")
+		logs.Debug("cache")
 		return res
 	}
 	_, err := orm.NewOrm().Raw("SELECT FROM_UNIXTIME(create_time,'%Y-%m-%d') days,COUNT(id) count FROM task_log WHERE status in(?) GROUP BY days ORDER BY days DESC limit ?;",

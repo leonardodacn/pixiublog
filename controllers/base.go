@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 const (
@@ -69,6 +70,8 @@ func (self *BaseController) Prepare() {
 	self.Data["curRoute"] = self.controllerName + "." + self.actionName
 	self.Data["curController"] = self.controllerName
 	self.Data["curAction"] = self.actionName
+
+	logs.Info("user ip:" + self.Ctx.Request.RemoteAddr + ", url:" + self.Ctx.Request.RequestURI + ", user-agent:" + self.Ctx.Request.Header.Get("User-Agent"))
 
 	self.Auth()
 	self.Data["loginUserId"] = self.userId
