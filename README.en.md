@@ -2,13 +2,15 @@
 
 a blog that use golang, base on beego,layui
 
+## demo
++ [haokiu](http://www.haokiu.com)
+
 ## tech
 
 + beego
 + bee
 + layui
 + bootstrap
-+ PPGO_JOB
 
 ## install
 

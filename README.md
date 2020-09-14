@@ -4,6 +4,9 @@
 
 pixiublog是一款轻量级博客系统，go语言开发，部署超级简单，资源消耗少，运行稳定。
 
+### 使用的网站
++ [haokiu](http://www.haokiu.com)
+
 ### 使用的框架
 
 + beego
